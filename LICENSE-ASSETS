@@ -1,0 +1,26 @@
+Immersive_Eating Asset License
+Copyright (c) 2026 Immersive_Eating Team
+
+The following artwork and content assets:
+src/main/resources/assets/food/textures/
+src/main/resources/assets/food/geo/
+src/main/resources/assets/food/animations/
+
+are licensed under the Creative Commons Attribution-NonCommercial-NoDerivatives
+4.0 International License (CC BY-NC-ND 4.0).
+
+License URL:
+https://creativecommons.org/licenses/by-nc-nd/4.0/
+
+Attribution:
+Immersive_Eating Team
+
+You may copy and redistribute these assets in any medium or format
+for non-commercial purposes, provided that you give appropriate credit,
+provide the license link, and indicate if changes were made.
+
+You may not use these assets for commercial purposes. You may not distribute
+modified versions of these assets.
+
+This license applies only to the assets listed above. Java source code and
+other code files are licensed under GPL-3.0-only; see LICENSE.

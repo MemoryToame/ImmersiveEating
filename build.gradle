@@ -1,12 +1,16 @@
 buildscript {
     repositories {
         // These repositories are only for Gradle plugins, put any other repositories in the repository block further below
-        maven { url = 'https://repo.spongepowered.org/repository/maven-public/' }
+        maven {
+            url = 'https://repo.spongepowered.org/repository/maven-public/'
+
+        }
         mavenCentral()
     }
     dependencies {
         classpath 'org.spongepowered:mixingradle:0.7-SNAPSHOT'
     }
+
 }
 
 plugins {
@@ -22,7 +26,7 @@ group = mod_group_id
 version = mod_version
 
 base {
-    archivesName = mod_id
+    archivesName = mod_name
 }
 
 java {
@@ -99,10 +103,12 @@ minecraft {
         client {
             // Comma-separated list of namespaces to load gametests from. Empty = all namespaces.
             property 'forge.enabledGameTestNamespaces', mod_id
+            //
         }
 
         server {
             property 'forge.enabledGameTestNamespaces', mod_id
+            //
             args '--nogui'
         }
 
@@ -141,6 +147,23 @@ repositories {
     // flatDir {
     //     dir 'libs'
     // }
+    // This is the repositories block in your build.gradle. NOT the one in publishing, or in buildscript. If it does not exist already, create it.
+    maven {
+        name = 'GeckoLib'
+        url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/'
+        content {
+            includeGroupByRegex("software\\.bernie.*")
+            includeGroup("com.eliotlash.mclib")
+        }
+    }
+    maven {
+        name = "Modrinth"
+        url = "https://api.modrinth.com/maven"
+    }
+    maven {
+        name = "CurseForge"
+        url = "https://www.cursemaven.com"
+    }
 }
 
 dependencies {
@@ -165,6 +188,11 @@ dependencies {
     // For more info:
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
+    implementation fg.deobf("software.bernie.geckolib:geckolib-forge-${minecraft_version}:${geckolib_version}")
+    // implementation fg.deobf("maven.modrinth:kaleidoscope-cookery:1.4.1-forge+mc1.20.1")
+
+
+    implementation("com.eliotlash.mclib:mclib:20")
 
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 

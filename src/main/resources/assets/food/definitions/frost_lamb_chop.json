@@ -1,0 +1,8 @@
+{
+	"item": "kaleidoscope_cookery:frost_lamb_chop",
+	"invisible": ["kuaizi"],
+	"sounds": {
+		"eating": "food:eat",
+		"cherry": "food.cherry"
+	}
+}

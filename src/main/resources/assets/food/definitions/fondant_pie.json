@@ -1,0 +1,7 @@
+{
+	"item": "kaleidoscope_cookery:fondant_pie",
+	"invisible": ["kuaizi"],
+	"sounds": {
+		"eating": "food:eat"
+	}
+}

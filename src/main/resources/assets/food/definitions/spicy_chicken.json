@@ -1,0 +1,8 @@
+{
+	"item": "kaleidoscope_cookery:spicy_chicken",
+	"invisible": ["kuaizi"],
+	"sounds": {
+		"eating": "food:eat",
+		"soup": "food.soup"
+	}
+}

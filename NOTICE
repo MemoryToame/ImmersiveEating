@@ -1,0 +1,11 @@
+Immersive_Eating
+
+Code is licensed under GPL-3.0-only. See LICENSE.
+Artwork and content assets in the following directories are copyrighted by
+Immersive_Eating Team and licensed under CC BY-NC-ND 4.0:
+
+src/main/resources/assets/food/geo/
+src/main/resources/assets/food/animations/
+src/main/resources/assets/food/textures/
+
+See LICENSE-ASSETS.

@@ -1,7 +1,9 @@
 /run-data/
 /run/
-/gradle/
 /.idea/
 /build/
 /.gradle/
+/libs/
+/src.zip
+/hs_err_pid*.log
 /src/generated/resources/.cache/

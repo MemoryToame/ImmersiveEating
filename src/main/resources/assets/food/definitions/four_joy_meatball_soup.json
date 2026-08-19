@@ -1,0 +1,8 @@
+{
+	"item": "kaleidoscope_cookery:four_joy_meatball_soup",
+	"invisible": ["kuaizi"],
+	"sounds": {
+		"eating": "food:eat",
+		"soup": "food.soup"
+	}
+}

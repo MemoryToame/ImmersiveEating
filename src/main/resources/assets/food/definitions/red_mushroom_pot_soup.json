@@ -1,0 +1,8 @@
+{
+	"item": "kaleidoscope_cookery:red_mushroom_pot_soup",
+	"invisible": [],
+	"sounds": {
+		"eating": "food:eat",
+		"soup": "food.soup"
+	}
+}

@@ -2,11 +2,16 @@
   "required": true,
   "minVersion": "0.8",
   "package": "org.toame.food.mixin",
-  "compatibilityLevel": "JAVA_8",
+  "compatibilityLevel": "JAVA_17",
   "refmap": "food.refmap.json",
   "mixins": [
   ],
   "client": [
+    "ClientPackSourceMixin",
+    "Accessor.ItemInHandRendererAccessor",
+    "KeyboardHandlerMixin",
+    "ItemRendererMixin",
+    "PlayerRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1
