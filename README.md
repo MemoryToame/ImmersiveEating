@@ -48,13 +48,15 @@ src/main/resources/assets/food/
   "item": "examplemod:example_food",
   "invisible": ["exampelBone"],
   "sounds": {
-    "动画音乐关键帧名": "food:eat"
+    "动画音乐关键帧名": "food:eat" 
   }
 }
 ```
 - `item`：要替换渲染的物品 ID。
 - `invisible`：待机模型阶段隐藏的 bone 名称。隐藏父 bone 时，其全部子 bone 也会一同隐藏；进食动画播放期间会恢复显示。
 - `sounds`：将动画音效关键帧名称映射到游戏声音 ID。
+- `food:eat`对应food/sounds/eat.ogg文件可通过添加材质包等方式注册声音
+
 模型、动画、材质文件名必须与定义文件名一致。例如定义文件是 `example_food.json`，则应使用：
 ```text
 geo/example_food.geo.json
