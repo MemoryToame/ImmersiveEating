@@ -9,6 +9,7 @@ import org.toame.food.additions.definiton.FoodDefinitionManager;
 import org.toame.food.mixin.Accessor.ItemInHandRendererAccessor;
 import org.toame.food.network.Network;
 import org.toame.food.network.packet.SoundPacket;
+import org.toame.food.init.ModItems;
 import software.bernie.geckolib.animatable.GeoItem;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.core.animation.AnimatableManager;
@@ -31,6 +32,18 @@ public class Empty extends Item implements GeoItem {
             stack = new ItemStack(this);
         }
         return stack;
+    }
+
+    public static void stopEatAnimation() {
+        Empty empty = ModItems.EMPTY.get();
+        long instanceId = GeoItem.getId(empty.getRenderStack());
+        AnimationController<?> controller = empty.getAnimatableInstanceCache()
+                .getManagerForId(instanceId)
+                .getAnimationControllers()
+                .get("eat");
+        if (controller != null) {
+            controller.stop();
+        }
     }
 
     @Override

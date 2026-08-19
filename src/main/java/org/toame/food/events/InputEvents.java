@@ -10,6 +10,7 @@ import net.minecraftforge.fml.common.Mod;
 import org.lwjgl.glfw.GLFW;
 import org.toame.food.Food;
 import org.toame.food.additions.CustomRenderer;
+import org.toame.food.additions.Empty;
 import org.toame.food.client.key.ModKeyMappings;
 import org.toame.food.network.packet.AnimationPacket;
 import org.toame.food.network.Network;
@@ -86,6 +87,14 @@ public class InputEvents {
         Minecraft mc = Minecraft.getInstance();
         if (mc.player == null) {
             lockedHotbarSlot = -1;
+            return;
+        }
+        if (mc.screen != null) {
+            if (temp != null || lockedHotbarSlot >= 0) {
+                Empty.stopEatAnimation();
+                temp = null;
+                lockedHotbarSlot = -1;
+            }
             return;
         }
         if (isAnimationLocked()) {
