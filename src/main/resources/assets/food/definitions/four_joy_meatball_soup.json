@@ -3,6 +3,6 @@
 	"invisible": ["kuaizi"],
 	"sounds": {
 		"eating": "food:eat",
-		"soup": "food.soup"
+		"soup": "food:soup"
 	}
 }
