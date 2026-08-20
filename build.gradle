@@ -189,7 +189,7 @@ dependencies {
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
     implementation fg.deobf("software.bernie.geckolib:geckolib-forge-${minecraft_version}:${geckolib_version}")
-    // implementation fg.deobf("maven.modrinth:kaleidoscope-cookery:1.4.1-forge+mc1.20.1")
+    implementation fg.deobf("maven.modrinth:kaleidoscope-cookery:1.4.1-forge+mc1.20.1")
 
 
     implementation("com.eliotlash.mclib:mclib:20")
