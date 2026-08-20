@@ -1,0 +1,9 @@
+{
+  "item": "modid:example_item",
+  "invisible": [
+    "kuaizi"
+  ],
+  "sounds": {
+    "eating": "food:example_eating"
+  }
+}

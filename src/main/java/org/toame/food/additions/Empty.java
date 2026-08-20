@@ -2,12 +2,14 @@ package org.toame.food.additions;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import org.toame.food.Food;
 import org.toame.food.additions.definiton.FoodDefinitionManager;
 import org.toame.food.mixin.Accessor.ItemInHandRendererAccessor;
 import org.toame.food.network.Network;
+import org.toame.food.network.packet.FinishUsePacket;
 import org.toame.food.network.packet.SoundPacket;
 import org.toame.food.init.ModItems;
 import software.bernie.geckolib.animatable.GeoItem;
@@ -71,6 +73,9 @@ public class Empty extends Item implements GeoItem {
                     fakeStack.setCount(Food.temp.getCount() + 1);
                     itemInHandRenderer.setMainHandItem(fakeStack);
                     Food.temp = null;
+
+                    //消耗物品
+                    Network.CHANNEL.sendToServer(new FinishUsePacket(InteractionHand.MAIN_HAND));
                 }
                 controller.stop();
                 Food.lockedHotbarSlot = -1;

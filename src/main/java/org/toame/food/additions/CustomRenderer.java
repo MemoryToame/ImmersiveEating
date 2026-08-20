@@ -68,7 +68,11 @@ public class CustomRenderer extends GeoItemRenderer<Empty> {
         capturedArms.clear();
         poseStack.pushPose();
 
-        HeldItemMotion.applyIdleMotion(poseStack, Minecraft.getInstance().getFrameTime());
+        float partialTick = Minecraft.getInstance().getFrameTime();
+        HeldItemMotion.applyIdleMotion(poseStack, partialTick);
+        HeldItemMotion.applyWalkMotion(poseStack, partialTick);
+        HeldItemMotion.applyInertiaMotion(poseStack,partialTick);
+        HeldItemMotion.applyJumpMotion(poseStack,partialTick);
 
         super.renderByItem(stack, transformType, poseStack, bufferSource, packedLight, packedOverlay);
         poseStack.popPose();

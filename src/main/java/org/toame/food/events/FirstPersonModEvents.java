@@ -12,6 +12,7 @@ import net.minecraftforge.fml.common.Mod;
 import org.slf4j.Logger;
 import org.toame.food.Food;
 import org.toame.food.additions.CustomRenderer;
+import org.toame.food.client.HeldItemMotion;
 import org.toame.food.mixin.Accessor.ItemInHandRendererAccessor;
 
 import java.lang.reflect.Method;
@@ -35,8 +36,10 @@ public final class FirstPersonModEvents {
         if (event.phase != TickEvent.Phase.END) {
             return;
         }
-        Minecraft minecraft = Minecraft.getInstance();
-        if (minecraft.player == null || !minecraft.options.getCameraType().isFirstPerson()) {
+        HeldItemMotion.tickInertia();
+        HeldItemMotion.tickJump();
+        Minecraft mc = Minecraft.getInstance();
+        if (mc.player == null || !mc.options.getCameraType().isFirstPerson()) {
             restorePreviousState();
             return;
         }
@@ -47,12 +50,12 @@ public final class FirstPersonModEvents {
             setFirstPersonModEnabled(false);
             return;
         }
-        if (minecraft.player.getXRot() <= VANILLA_PITCH_MAX&& CustomRenderer.init_ItemList.contains(minecraft.player.getMainHandItem().getItem())) {
+        if (mc.player.getXRot() <= VANILLA_PITCH_MAX&& CustomRenderer.init_ItemList.contains(mc.player.getMainHandItem().getItem())) {
             if (!forcedVanilla) {
                 previousEnabled = isFirstPersonModlEnabled();
                 forcedVanilla = true;
                 if (previousEnabled) {
-                    playVanillaReequipAnimation(minecraft);
+                    playVanillaReequipAnimation(mc);
                 }
             }
             setFirstPersonModEnabled(false);
