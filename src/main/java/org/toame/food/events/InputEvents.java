@@ -104,7 +104,7 @@ public class InputEvents {
         }
     }
 
-    private static boolean isAnimationLocked() {
+    public static boolean isAnimationLocked() {
         return temp != null && lockedHotbarSlot >= 0;
     }
 

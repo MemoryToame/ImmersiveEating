@@ -43,6 +43,10 @@ public final class FirstPersonModEvents {
         if (!findApi()) {
             return;
         }
+        if (InputEvents.isAnimationLocked()){
+            setFirstPersonModEnabled(false);
+            return;
+        }
         if (minecraft.player.getXRot() <= VANILLA_PITCH_MAX&& CustomRenderer.init_ItemList.contains(minecraft.player.getMainHandItem().getItem())) {
             if (!forcedVanilla) {
                 previousEnabled = isFirstPersonModlEnabled();
