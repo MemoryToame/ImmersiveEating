@@ -1,18 +1,17 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "org.toame.food.mixin",
-  "compatibilityLevel": "JAVA_17",
-  "refmap": "food.refmap.json",
+  "package": "io.github.memorytoame.immersiveeating.neoforge.mixin",
+  "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "PunchyConfigMixin"
   ],
   "client": [
     "ClientPackSourceMixin",
-    "Accessor.ItemInHandRendererAccessor",
-    "KeyboardHandlerMixin",
     "ItemRendererMixin",
-    "PunchyConfigMixin",
-    "PlayerRendererMixin"
+    "KeyboardHandlerMixin",
+    "PlayerRendererMixin",
+    "Accessor.ItemInHandRendererAccessor"
   ],
   "injectors": {
     "defaultRequire": 1

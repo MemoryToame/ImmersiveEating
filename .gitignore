@@ -1,9 +1,31 @@
-/run-data/
-/run/
-/.idea/
-/build/
-/.gradle/
-/libs/
-/src.zip
-/hs_err_pid*.log
-/src/generated/resources/.cache/
+# Gradle
+.gradle/
+build/
+
+# NeoForge/Minecraft development runtime
+run/
+logs/
+crash-reports/
+
+# IDEs
+.idea/
+*.iml
+*.ipr
+*.iws
+out/
+.vscode/
+
+# Local machine files
+local.properties
+.env
+.env.*
+!.env.example
+
+# Logs and JVM crash dumps
+*.log
+hs_err_pid*
+replay_pid*
+
+# OS metadata
+.DS_Store
+Thumbs.db
