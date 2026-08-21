@@ -2355,6 +2355,9 @@
 				"7.2333": {
 					"effect": "eating"
 				}
+			},
+			"timeline": {
+				"8.4167": "finished;"
 			}
 		}
 	}
