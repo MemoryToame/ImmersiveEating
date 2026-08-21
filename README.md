@@ -30,8 +30,6 @@ kaleidoscope ImmersiveEating 是一个面向 Minecraft Forge 1.20.1 的第一人
 ## 扩展
 一个食物扩展由定义、模型、动画和材质组成：
 
-完整的可复制示例见 [`wiki/Custom-Resource-Pack.md`](wiki/Custom-Resource-Pack.md) 和 [`example_resourcepack`](example_resourcepack)。
-
 ```text
 src/main/resources/assets/food/
 ├── definitions/
