@@ -4,8 +4,9 @@
 
 **让食物在第一人称中拥有专属模型与进食动画。**
 
-[![Minecraft](https://img.shields.io/badge/Minecraft-1.20.1-62B47A?style=flat-square)](https://www.minecraft.net/)
+[![Minecraft](https://img.shields.io/badge/Minecraft-1.20.1%20%7C%201.21.1-62B47A?style=flat-square)](https://www.minecraft.net/)
 [![Forge](https://img.shields.io/badge/Forge-47.4.22-EA7F00?style=flat-square)](https://files.minecraftforge.net/)
+[![NeoForge](https://img.shields.io/badge/NeoForge-21.1.248-E04E14?style=flat-square)](https://neoforged.net/)
 [![Code License](https://img.shields.io/badge/Code-GPL--3.0--only-blue?style=flat-square)](LICENSE)
 [![Assets License](https://img.shields.io/badge/Assets-CC%20BY--NC--ND%204.0-lightgrey?style=flat-square)](LICENSE-ASSETS)
 
