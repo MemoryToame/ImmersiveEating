@@ -38,6 +38,7 @@ public final class FirstPersonModEvents {
         }
         HeldItemMotion.tickInertia();
         HeldItemMotion.tickJump();
+        HeldItemMotion.tickCrouch();
         Minecraft mc = Minecraft.getInstance();
         if (mc.player == null || !mc.options.getCameraType().isFirstPerson()) {
             restorePreviousState();

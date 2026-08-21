@@ -7,6 +7,8 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import org.toame.food.Food;
 import org.toame.food.additions.definiton.FoodDefinitionManager;
+import org.toame.food.client.CameraShake;
+import org.toame.food.events.InputEvents;
 import org.toame.food.mixin.Accessor.ItemInHandRendererAccessor;
 import org.toame.food.network.Network;
 import org.toame.food.network.packet.FinishUsePacket;
@@ -20,6 +22,8 @@ import software.bernie.geckolib.core.animation.RawAnimation;
 import software.bernie.geckolib.core.object.PlayState;
 import software.bernie.geckolib.util.GeckoLibUtil;
 import net.minecraftforge.registries.ForgeRegistries;
+
+import static org.toame.food.events.InputEvents.playCustomUseReequipAnimation;
 
 public class Empty extends Item implements GeoItem {
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
@@ -64,16 +68,13 @@ public class Empty extends Item implements GeoItem {
             if (soundId != null) {
                 Network.CHANNEL.sendToServer(new SoundPacket(itemId, soundId));
             }
+            CameraShake.trigger();
         });
         controller.setCustomInstructionKeyframeHandler(keyFrames ->{
             if (keyFrames.getKeyframeData().getInstructions().contains("finished")){
                 if (Food.temp != null) {
-                    ItemInHandRendererAccessor itemInHandRenderer = (ItemInHandRendererAccessor) Minecraft.getInstance().gameRenderer.itemInHandRenderer;
-                    ItemStack fakeStack = Food.temp.copy();
-                    fakeStack.setCount(Food.temp.getCount() + 1);
-                    itemInHandRenderer.setMainHandItem(fakeStack);
+                    playCustomUseReequipAnimation(Minecraft.getInstance(),Food.temp.copy());
                     Food.temp = null;
-
                     //消耗物品
                     Network.CHANNEL.sendToServer(new FinishUsePacket(InteractionHand.MAIN_HAND));
                 }

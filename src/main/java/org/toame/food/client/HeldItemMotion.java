@@ -16,27 +16,36 @@ public class HeldItemMotion {
     inertiaMotion    惯性晃动
     jumpMotion       跳跃晃动
      */
-    private static Vec3 lastHorizontalVelocity = Vec3.ZERO;
+    private static Vec3 prevHorizontalVel = Vec3.ZERO;
 
     private static float inertiaPitch;
-    private static float inertiaPitchVelocity;
+    private static float inertiaPitchVel;
 
     private static float inertiaRoll;
-    private static float inertiaRollVelocity;
+    private static float inertiaRollVel;
 
     private static boolean wasOnGround = true;
-    private static float lastVerticalVelocity;
+    private static float prevVerticalVel;
 
     private static float jumpY;
-    private static float jumpYVelocity;
+    private static float jumpYVel;
 
     private static float jumpPitch;
-    private static float jumpPitchVelocity;
+    private static float jumpPitchVel;
 
-    private static float previousInertiaPitch;
-    private static float previousInertiaRoll;
-    private static float previousJumpY;
-    private static float previousJumpPitch;
+    private static float prevInertiaPitch;
+    private static float prevInertiaRoll;
+    private static float prevJumpY;
+    private static float prevJumpPitch;
+
+    private static float crouchAmount;
+    private static boolean wasCrouching;
+    private static float crouchKickPitch;
+    private static float crouchKickPitchVel;
+    private static float crouchKickRoll;
+    private static float crouchKickRollVel;
+    private static float prevCrouchKickPitch;
+    private static float prevCrouchKickRoll;
 
     private HeldItemMotion() {
     }
@@ -103,9 +112,9 @@ public class HeldItemMotion {
             return;
         }
 
-        float pitch = Mth.lerp(partialTick, previousInertiaPitch, inertiaPitch);
+        float pitch = Mth.lerp(partialTick, prevInertiaPitch, inertiaPitch);
 
-        float roll = Mth.lerp(partialTick, previousInertiaRoll, inertiaRoll);
+        float roll = Mth.lerp(partialTick, prevInertiaRoll, inertiaRoll);
 
         //摇晃强度
         float intensity = mc.player.isUsingItem() ? 0.15F : 1.0F;
@@ -121,17 +130,17 @@ public class HeldItemMotion {
             resetInertia();
             return;
         }
-        previousInertiaPitch = inertiaPitch;
-        previousInertiaRoll = inertiaRoll;
+        prevInertiaPitch = inertiaPitch;
+        prevInertiaRoll = inertiaRoll;
         Player player = mc.player;
         //get运动矢量
-        Vec3 velocity = player.getDeltaMovement();
+        Vec3 vel = player.getDeltaMovement();
 
         //水平矢量
-        Vec3 currentHorizontalVelocity = new Vec3(velocity.x, 0.0, velocity.z);
+        Vec3 currHorizontalVel = new Vec3(vel.x, 0.0, vel.z);
 
         //水平加速度
-        Vec3 acceleration = currentHorizontalVelocity.subtract(lastHorizontalVelocity);
+        Vec3 acceleration = currHorizontalVel.subtract(prevHorizontalVel);
 
         float yaw = player.getYRot() * Mth.DEG_TO_RAD;
 
@@ -153,33 +162,33 @@ public class HeldItemMotion {
          物品会向前摆动。
         */
         //16f 10f为系数 越大惯性越大
-        inertiaPitchVelocity -= forwardAcceleration * 16.0F;
+        inertiaPitchVel -= forwardAcceleration * 16.0F;
         //侧向移动会产生侧倾
-        inertiaRollVelocity += sideAcceleration * 10.0F;
+        inertiaRollVel += sideAcceleration * 10.0F;
 
         //弹回到初始位置
-        inertiaPitchVelocity += -inertiaPitch * 0.20F;
-        inertiaPitchVelocity *= 0.72F;
-        inertiaPitch += inertiaPitchVelocity;
+        inertiaPitchVel += -inertiaPitch * 0.20F;
+        inertiaPitchVel *= 0.72F;
+        inertiaPitch += inertiaPitchVel;
 
-        inertiaRollVelocity += -inertiaRoll * 0.20F;
-        inertiaRollVelocity *= 0.72F;
-        inertiaRoll += inertiaRollVelocity;
+        inertiaRollVel += -inertiaRoll * 0.20F;
+        inertiaRollVel *= 0.72F;
+        inertiaRoll += inertiaRollVel;
 
         inertiaPitch = Mth.clamp(inertiaPitch, -8.0F, 8.0F);
 
         inertiaRoll = Mth.clamp(inertiaRoll, -6.0F, 6.0F);
-        lastHorizontalVelocity = currentHorizontalVelocity;
+        prevHorizontalVel = currHorizontalVel;
     }
 
     public static void resetInertia() {
-        lastHorizontalVelocity = Vec3.ZERO;
+        prevHorizontalVel = Vec3.ZERO;
 
         inertiaPitch = 0.0F;
-        inertiaPitchVelocity = 0.0F;
+        inertiaPitchVel = 0.0F;
 
         inertiaRoll = 0.0F;
-        inertiaRollVelocity = 0.0F;
+        inertiaRollVel = 0.0F;
     }
     //
     public static void tickJump() {
@@ -189,53 +198,53 @@ public class HeldItemMotion {
             resetJump();
             return;
         }
-        previousJumpY = jumpY;
-        previousJumpPitch = jumpPitch;
+        prevJumpY = jumpY;
+        prevJumpPitch = jumpPitch;
         Player player = mc.player;
-        Vec3 velocity = player.getDeltaMovement();
+        Vec3 vel = player.getDeltaMovement();
         boolean onGround = player.onGround();
 
         //fly！！！
-        if (wasOnGround && !onGround && velocity.y > 0.05) {
-            jumpYVelocity += 0.035F;
-            jumpPitchVelocity -= 1.0F;
+        if (wasOnGround && !onGround && vel.y > 0.05) {
+            jumpYVel += 0.035F;
+            jumpPitchVel -= 1.0F;
         }
         //landing
-        if (!wasOnGround && onGround && lastVerticalVelocity < -0.05F) {
+        if (!wasOnGround && onGround && prevVerticalVel < -0.05F) {
             //落地强度
-            float impact = Mth.clamp(-lastVerticalVelocity * 1.5F, 0.0F, 1.0F);
+            float impact = Mth.clamp(-prevVerticalVel * 1.5F, 0.0F, 1.0F);
             //0.035f 1.4F系数越小落地越软
-            jumpYVelocity -= 0.025F + impact * 0.035F;
-            jumpPitchVelocity += 0.8F + impact * 1.4F;
+            jumpYVel -= 0.025F + impact * 0.035F;
+            jumpPitchVel += 0.8F + impact * 1.4F;
         }
 
         // 竖直
-        jumpYVelocity += -jumpY * 0.16F;
-        jumpYVelocity *= 0.78F;
-        jumpY += jumpYVelocity;
+        jumpYVel += -jumpY * 0.16F;
+        jumpYVel *= 0.78F;
+        jumpY += jumpYVel;
 
         //旋转
-        jumpPitchVelocity += -jumpPitch * 0.18F;
-        jumpPitchVelocity *= 0.76F;
-        jumpPitch += jumpPitchVelocity;
+        jumpPitchVel += -jumpPitch * 0.18F;
+        jumpPitchVel *= 0.76F;
+        jumpPitch += jumpPitchVel;
 
         jumpY = Mth.clamp(jumpY, -0.08F, 0.08F);
 
         jumpPitch = Mth.clamp(jumpPitch, -5.0F, 5.0F);
 
-        lastVerticalVelocity = (float) velocity.y;
+        prevVerticalVel = (float) vel.y;
         wasOnGround = onGround;
     }
 
     public static void resetJump() {
         wasOnGround = true;
-        lastVerticalVelocity = 0.0F;
+        prevVerticalVel = 0.0F;
 
         jumpY = 0.0F;
-        jumpYVelocity = 0.0F;
+        jumpYVel = 0.0F;
 
         jumpPitch = 0.0F;
-        jumpPitchVelocity = 0.0F;
+        jumpPitchVel = 0.0F;
     }
 
     public static void applyJumpMotion(PoseStack poseStack, float partialTick) {
@@ -244,13 +253,91 @@ public class HeldItemMotion {
             return;
         }
 
-        float y = Mth.lerp(partialTick, previousJumpY, jumpY);
+        float y = Mth.lerp(partialTick, prevJumpY, jumpY);
 
-        float pitch = Mth.lerp(partialTick, previousJumpPitch, jumpPitch);
+        float pitch = Mth.lerp(partialTick, prevJumpPitch, jumpPitch);
 
         float intensity = mc.player.isUsingItem() ? 0.15F : 1.0F;
 
         poseStack.translate(0.0F, y * intensity, 0.0F);
         poseStack.mulPose(Axis.XP.rotationDegrees(pitch * intensity));
+    }
+
+    /*
+    下蹲摇晃
+     */
+    public static void applyCrouchMotion(PoseStack poseStack, float partialTick) {
+        Minecraft mc = Minecraft.getInstance();
+        if (mc.player == null) {
+            return;
+        }
+        Player player = mc.player;
+        float target = player.isCrouching() ? 1.0F : 0.0F;
+        crouchAmount = Mth.lerp(0.18F, crouchAmount, target);
+
+        if (crouchAmount < 0.001F) {
+            crouchAmount = 0.0F;
+            return;
+        }
+        float time = player.tickCount + partialTick;
+        float movement = Mth.clamp(player.walkAnimation.speed(partialTick) * 1.25F, 0.0F, 1.0F);
+        float intensity = crouchAmount * (0.35F + movement * 0.65F);
+
+        float x = Mth.sin(time * 0.2F) * 0.0025F * intensity;
+        float y = Mth.cos(time * 0.4F) * 0.0015F * intensity;
+        float pitch = Mth.cos(time * 0.2F) * 0.55F * intensity;
+        float roll = Mth.sin(time * 0.2F) * 1.15F * intensity;
+
+        float kickPitch = Mth.lerp(partialTick, prevCrouchKickPitch, crouchKickPitch);
+        float kickRoll = Mth.lerp(partialTick, prevCrouchKickRoll, crouchKickRoll);
+
+//        System.out.println(kickPitch);
+//        System.out.println(kickRoll);
+
+        poseStack.translate(x, y, 0.0F);
+        poseStack.mulPose(Axis.XP.rotationDegrees(pitch));
+        poseStack.mulPose(Axis.ZP.rotationDegrees(roll));
+        poseStack.mulPose(Axis.XP.rotationDegrees(kickPitch));
+        poseStack.mulPose(Axis.ZP.rotationDegrees(kickRoll));
+    }
+
+    public static void tickCrouch() {
+        Minecraft mc = Minecraft.getInstance();
+        if (mc.player == null) {
+            resetCrouch();
+            return;
+        }
+
+        prevCrouchKickPitch = crouchKickPitch;
+        prevCrouchKickRoll = crouchKickRoll;
+
+        boolean crouching = mc.player.isCrouching();
+        if (!wasCrouching && crouching) {
+            crouchKickPitchVel -= 0.75F;
+            crouchKickRollVel += 0.30F;
+        }
+
+        crouchKickPitchVel += -crouchKickPitch * 0.24F;
+        crouchKickPitchVel *= 0.70F;
+        crouchKickPitch += crouchKickPitchVel;
+
+        crouchKickRollVel += -crouchKickRoll * 0.24F;
+        crouchKickRollVel *= 0.70F;
+        crouchKickRoll += crouchKickRollVel;
+
+        crouchKickPitch = Mth.clamp(crouchKickPitch, -2.0F, 2.0F);
+        crouchKickRoll = Mth.clamp(crouchKickRoll, -1.0F, 1.0F);
+
+        wasCrouching = crouching;
+    }
+
+    public static void resetCrouch() {
+        wasCrouching = false;
+        crouchKickPitch = 0.0F;
+        crouchKickPitchVel = 0.0F;
+        crouchKickRoll = 0.0F;
+        crouchKickRollVel = 0.0F;
+        prevCrouchKickPitch = 0.0F;
+        prevCrouchKickRoll = 0.0F;
     }
 }

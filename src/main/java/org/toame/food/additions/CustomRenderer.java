@@ -73,6 +73,7 @@ public class CustomRenderer extends GeoItemRenderer<Empty> {
         HeldItemMotion.applyWalkMotion(poseStack, partialTick);
         HeldItemMotion.applyInertiaMotion(poseStack,partialTick);
         HeldItemMotion.applyJumpMotion(poseStack,partialTick);
+        HeldItemMotion.applyCrouchMotion(poseStack, partialTick);
 
         super.renderByItem(stack, transformType, poseStack, bufferSource, packedLight, packedOverlay);
         poseStack.popPose();

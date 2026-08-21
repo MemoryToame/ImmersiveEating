@@ -40,7 +40,11 @@ public class ItemRendererMixin {
             //xyz加 分别对应 右 上 后
             poseStack.translate(NORMAL.getTranslateX(), NORMAL.getTranslateY(), NORMAL.getTranslateZ());
             //poseStack.translate(debugX, debugY, debugZ);
-            CustomRenderer customRenderer = rendererMap.get(id.getPath())!=null?rendererMap.get(id.getPath()):new CustomRenderer(id.toString());
+            CustomRenderer customRenderer = rendererMap.get(id.getPath());
+            if (customRenderer == null) {
+                customRenderer = new CustomRenderer(id.toString()); //id.toString 因为构造器里有一个解析path的方法
+                rendererMap.put(id.getPath(), customRenderer);
+            }
             customRenderer.renderByItem(customRenderer.getItemStack(), context, poseStack, buffer, light, overlay);
             poseStack.popPose();
             ci.cancel();

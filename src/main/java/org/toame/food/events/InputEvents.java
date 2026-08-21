@@ -1,6 +1,7 @@
 package org.toame.food.events;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.InputEvent;
@@ -12,6 +13,7 @@ import org.toame.food.Food;
 import org.toame.food.additions.CustomRenderer;
 import org.toame.food.additions.Empty;
 import org.toame.food.client.key.ModKeyMappings;
+import org.toame.food.mixin.Accessor.ItemInHandRendererAccessor;
 import org.toame.food.network.packet.AnimationPacket;
 import org.toame.food.network.Network;
 
@@ -19,6 +21,11 @@ import static org.toame.food.Food.*;
 
 @Mod.EventBusSubscriber(modid = Food.MODID, value = Dist.CLIENT)
 public class InputEvents {
+    // InputEvents.java fields
+    private static boolean wasUsingCustomItem;
+    private static boolean customUseReequipHandled;
+    private static ItemStack customUseStack = ItemStack.EMPTY;
+
     public static float debugX= -1.5F;
     public static float debugY= 0.05F;
     public static float debugZ= -0.3F;
@@ -89,6 +96,7 @@ public class InputEvents {
             lockedHotbarSlot = -1;
             return;
         }
+        updateCustomUseState(mc);
         if (mc.screen != null) {
             if (temp != null || lockedHotbarSlot >= 0) {
                 Empty.stopEatAnimation();
@@ -108,4 +116,45 @@ public class InputEvents {
         return temp != null && lockedHotbarSlot >= 0;
     }
 
+    private static void updateCustomUseState(Minecraft mc) {
+        if (mc.player == null) {
+            resetCustomUseState();
+            return;
+        }
+        boolean usingCustomItem = mc.player.isUsingItem()
+                && mc.player.getUsedItemHand() == InteractionHand.MAIN_HAND
+                && CustomRenderer.init_ItemList.contains(mc.player.getUseItem().getItem());
+
+        if (usingCustomItem) {
+            if (!wasUsingCustomItem) {
+                customUseStack = mc.player.getUseItem().copy();
+                customUseReequipHandled = false;
+            }
+            wasUsingCustomItem = true;
+            return;
+        }
+        if (!wasUsingCustomItem) {
+            return;
+        }
+        if (!customUseReequipHandled) {
+            playCustomUseReequipAnimation(mc, customUseStack);
+        }
+        resetCustomUseState();
+    }
+    public static void playCustomUseReequipAnimation(Minecraft mc, ItemStack stack) {
+        if (stack == null || stack.isEmpty()) {
+            return;
+        }
+        ItemInHandRendererAccessor renderer = (ItemInHandRendererAccessor) mc.gameRenderer.itemInHandRenderer;
+        ItemStack fakeStack = stack.copy();
+        fakeStack.setCount(stack.getCount() + 1);
+
+        renderer.setMainHandItem(fakeStack);
+        customUseReequipHandled = true;
+    }
+    private static void resetCustomUseState() {
+        wasUsingCustomItem = false;
+        customUseReequipHandled = false;
+        customUseStack = ItemStack.EMPTY;
+    }
 }
