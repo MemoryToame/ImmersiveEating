@@ -28,6 +28,7 @@ public class InputEvents {
     private static boolean wasUsingCustomItem;
     private static boolean customUseReequipHandled;
     private static ItemStack customUseStack = ItemStack.EMPTY;
+    private static boolean wasEatAnimationPlaying;
 
     public static float debugX= -1.5F;
     public static float debugY= 0.05F;
@@ -86,32 +87,59 @@ public class InputEvents {
             event.setCanceled(true);
         }
     }
-
+    @SubscribeEvent
+    public static void onMouseButton(InputEvent.MouseButton.Pre event) {
+        if (event.getButton() == GLFW.GLFW_MOUSE_BUTTON_LEFT && event.getAction() == GLFW.GLFW_PRESS && isAnimationLocked()) {
+            //左键取消
+            stopAnimationControl();
+//            event.setCanceled(true);
+        }
+    }
     @SubscribeEvent
     public static void onClientTick(ClientTickEvent.Post event) {
         Minecraft mc = Minecraft.getInstance();
         if (mc.player == null) {
             lockedHotbarSlot = -1;
+            wasEatAnimationPlaying = false;
             return;
         }
         updateCustomUseState(mc);
         if (mc.screen != null) {
+            //玩家进入GUI等界面 例如说esc
             if (temp != null || lockedHotbarSlot >= 0) {
-                Empty.stopEatAnimation();
-                temp = null;
-                lockedHotbarSlot = -1;
+                //不出现意外就正常暂停动画 以及解除物品栏锁
+                stopAnimationControl();
             }
             return;
         }
+        //检查是否在播放动画 如果没用播放而且锁还在 那就走正常暂停动画以及解锁物品栏锁 这一流程(防止一些奇奇怪怪的bug 动画没了锁还在)
+        checkEatAnimationState();
         if (isAnimationLocked()) {
+            //沿用锁
             mc.player.getInventory().selected = lockedHotbarSlot;
         } else {
+            //将锁格=-1 dis掉
             lockedHotbarSlot = -1;
         }
     }
 
     public static boolean isAnimationLocked() {
         return temp != null && lockedHotbarSlot >= 0;
+    }
+    private static void checkEatAnimationState() {
+        boolean animationPlaying = Empty.isEatAnimationPlaying();
+        if (animationPlaying) {
+            wasEatAnimationPlaying = true;
+        } else if (wasEatAnimationPlaying && isAnimationLocked()) {
+            stopAnimationControl();
+        }
+    }
+
+    private static void stopAnimationControl() {
+        Empty.stopEatAnimation();
+        temp = null;
+        lockedHotbarSlot = -1;
+        wasEatAnimationPlaying = false;
     }
 
     private static void updateCustomUseState(Minecraft mc) {
@@ -139,6 +167,7 @@ public class InputEvents {
         }
         resetCustomUseState();
     }
+    //切换物品的假动画 实际未切换
     public static void playCustomUseReequipAnimation(Minecraft mc, ItemStack stack) {
         if (stack == null || stack.isEmpty()) {
             return;
