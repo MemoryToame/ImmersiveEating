@@ -52,6 +52,16 @@ public class Empty extends Item implements GeoItem {
         }
     }
 
+    public static boolean isEatAnimationPlaying() {
+        Empty empty = ModItems.EMPTY.get();
+        long instanceId = GeoItem.getId(empty.getRenderStack());
+        AnimationController<?> controller = empty.getAnimatableInstanceCache()
+                .getManagerForId(instanceId)
+                .getAnimationControllers()
+                .get("eat");
+        return controller != null && controller.isPlayingTriggeredAnimation();
+    }
+
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         AnimationController<Empty> controller = new AnimationController<>(this, "eat", state -> PlayState.STOP);
