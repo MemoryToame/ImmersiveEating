@@ -10,11 +10,13 @@ import net.minecraft.server.packs.PackResources;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.metadata.MetadataSectionSerializer;
 import net.minecraft.server.packs.metadata.pack.PackMetadataSection;
+import net.minecraft.server.packs.repository.PackSource;
 import net.minecraft.server.packs.resources.IoSupplier;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.Optional;
 import java.util.Set;
 
 public class FoodDynamicPack implements PackResources {
@@ -76,10 +78,11 @@ public class FoodDynamicPack implements PackResources {
         }
         return null;
     }
+    private static final PackLocationInfo LOCATION = new PackLocationInfo("food_dynamic", Component.literal("ImmersiveEating Resources"), PackSource.BUILT_IN, Optional.empty());
 
     @Override
     public PackLocationInfo location() {
-        return null;
+        return LOCATION;
     }
 
     @Override
