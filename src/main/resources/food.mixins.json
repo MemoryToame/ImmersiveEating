@@ -4,14 +4,14 @@
   "package": "io.github.memorytoame.immersiveeating.neoforge.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
-    "PunchyConfigMixin"
   ],
   "client": [
     "ClientPackSourceMixin",
     "ItemRendererMixin",
     "KeyboardHandlerMixin",
     "PlayerRendererMixin",
-    "Accessor.ItemInHandRendererAccessor"
+    "Accessor.ItemInHandRendererAccessor",
+    "PunchyConfigMixin"
   ],
   "injectors": {
     "defaultRequire": 1

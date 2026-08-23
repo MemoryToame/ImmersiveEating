@@ -2,7 +2,6 @@ package io.github.memorytoame.immersiveeating.neoforge.additions.definiton;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
-import io.github.memorytoame.immersiveeating.neoforge.additions.CustomRenderer;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;

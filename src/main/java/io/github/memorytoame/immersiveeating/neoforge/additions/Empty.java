@@ -2,17 +2,14 @@ package io.github.memorytoame.immersiveeating.neoforge.additions;
 
 import io.github.memorytoame.immersiveeating.neoforge.Food;
 import io.github.memorytoame.immersiveeating.neoforge.additions.definiton.FoodDefinitionManager;
-import io.github.memorytoame.immersiveeating.neoforge.client.CameraShake;
 import io.github.memorytoame.immersiveeating.neoforge.init.ModItems;
 import io.github.memorytoame.immersiveeating.neoforge.network.packet.FinishUsePacket;
 import io.github.memorytoame.immersiveeating.neoforge.network.packet.SoundPacket;
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import net.neoforged.neoforge.network.PacketDistributor;
 import software.bernie.geckolib.animatable.GeoItem;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
@@ -23,8 +20,6 @@ import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 import java.util.function.Consumer;
-
-import static io.github.memorytoame.immersiveeating.neoforge.events.InputEvents.playCustomUseReequipAnimation;
 
 public class Empty extends Item implements GeoItem {
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
