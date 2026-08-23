@@ -11,7 +11,7 @@ import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import org.slf4j.Logger;
 import org.toame.food.Food;
-import org.toame.food.additions.CustomRenderer;
+import org.toame.food.additions.definiton.FoodDefinitionManager;
 import org.toame.food.client.HeldItemMotion;
 import org.toame.food.mixin.Accessor.ItemInHandRendererAccessor;
 
@@ -51,7 +51,7 @@ public final class FirstPersonModEvents {
             setFirstPersonModEnabled(false);
             return;
         }
-        if (mc.player.getXRot() <= VANILLA_PITCH_MAX&& CustomRenderer.init_ItemList.contains(mc.player.getMainHandItem().getItem())) {
+        if (mc.player.getXRot() <= VANILLA_PITCH_MAX&& FoodDefinitionManager.init_ItemList.contains(mc.player.getMainHandItem().getItem())) {
             if (!forcedVanilla) {
                 previousEnabled = isFirstPersonModlEnabled();
                 forcedVanilla = true;

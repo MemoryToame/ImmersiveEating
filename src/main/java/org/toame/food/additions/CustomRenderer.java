@@ -6,7 +6,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 import org.toame.food.Food;
@@ -29,8 +28,6 @@ import java.util.Map;
 public class CustomRenderer extends GeoItemRenderer<Empty> {
 
     public static Map<String, CustomRenderer> rendererMap = new HashMap<>();
-    public static List<String> init_ItemIdList = new ArrayList<>();
-    public static List<Item> init_ItemList = new ArrayList<>();
     private final List<VanillaArmRenderer.CapturedArm> capturedArms = new ArrayList<>();
     private final String itemId;
 

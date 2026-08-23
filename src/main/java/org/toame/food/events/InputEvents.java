@@ -10,8 +10,8 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import org.lwjgl.glfw.GLFW;
 import org.toame.food.Food;
-import org.toame.food.additions.CustomRenderer;
 import org.toame.food.additions.Empty;
+import org.toame.food.additions.definiton.FoodDefinitionManager;
 import org.toame.food.client.key.ModKeyMappings;
 import org.toame.food.mixin.Accessor.ItemInHandRendererAccessor;
 import org.toame.food.network.packet.AnimationPacket;
@@ -41,7 +41,7 @@ public class InputEvents {
             if (mc.player != null) {
                 try {
                     ItemStack stack = mc.player.getMainHandItem();
-                    if (CustomRenderer.init_ItemList.contains(stack.getItem())){
+                    if (FoodDefinitionManager.init_ItemList.contains(stack.getItem())){
                         temp = stack.copy();
                         lockedHotbarSlot = mc.player.getInventory().selected;
                         Network.CHANNEL.sendToServer(new AnimationPacket());
@@ -152,7 +152,7 @@ public class InputEvents {
         }
         boolean usingCustomItem = mc.player.isUsingItem()
                 && mc.player.getUsedItemHand() == InteractionHand.MAIN_HAND
-                && CustomRenderer.init_ItemList.contains(mc.player.getUseItem().getItem());
+                && FoodDefinitionManager.init_ItemList.contains(mc.player.getUseItem().getItem());
 
         if (usingCustomItem) {
             if (!wasUsingCustomItem) {

@@ -15,6 +15,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.toame.food.additions.CustomRenderer;
+import org.toame.food.additions.definiton.FoodDefinitionManager;
 
 import static org.toame.food.additions.CustomRenderer.rendererMap;
 import static org.toame.food.client.TransformationMatrixProperties.NORMAL;
@@ -35,7 +36,7 @@ public class ItemRendererMixin {
         if (id == null) {
             return;
         }
-        if (CustomRenderer.init_ItemIdList.contains(id.toString())){
+        if (FoodDefinitionManager.init_ItemIdList.contains(id.toString())){
             poseStack.pushPose();
             //xyz加 分别对应 右 上 后
             poseStack.translate(NORMAL.getTranslateX(), NORMAL.getTranslateY(), NORMAL.getTranslateZ());

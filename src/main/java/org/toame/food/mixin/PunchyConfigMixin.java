@@ -8,6 +8,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.toame.food.additions.CustomRenderer;
+import org.toame.food.additions.definiton.FoodDefinitionManager;
 
 @Pseudo
 @Mixin(targets = "punchy.config.PunchyConfig")
@@ -30,6 +31,6 @@ public class PunchyConfigMixin {
     }
 
     private static boolean isCustomItem(ItemStack stack) {
-        return !stack.isEmpty() && CustomRenderer.init_ItemList.contains(stack.getItem());
+        return !stack.isEmpty() && FoodDefinitionManager.init_ItemList.contains(stack.getItem());
     }
 }
