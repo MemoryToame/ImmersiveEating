@@ -2,6 +2,7 @@ package io.github.memorytoame.immersiveeating.neoforge.mixin;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import io.github.memorytoame.immersiveeating.neoforge.additions.CustomRenderer;
+import io.github.memorytoame.immersiveeating.neoforge.additions.definiton.FoodDefinitionManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.ItemRenderer;
@@ -34,7 +35,7 @@ public class ItemRendererMixin {
         if (id == null) {
             return;
         }
-        if (CustomRenderer.init_ItemIdList.contains(id.toString())){
+        if (FoodDefinitionManager.init_ItemIdList.contains(id.toString())){
             poseStack.pushPose();
             // Translate on X, Y, Z respectively.
             //xyz加 分别对应 右 上 后

@@ -3,6 +3,7 @@ package io.github.memorytoame.immersiveeating.neoforge.events;
 import io.github.memorytoame.immersiveeating.neoforge.Food;
 import io.github.memorytoame.immersiveeating.neoforge.additions.CustomRenderer;
 import io.github.memorytoame.immersiveeating.neoforge.additions.Empty;
+import io.github.memorytoame.immersiveeating.neoforge.additions.definiton.FoodDefinitionManager;
 import io.github.memorytoame.immersiveeating.neoforge.client.key.ModKeyMappings;
 import io.github.memorytoame.immersiveeating.neoforge.mixin.Accessor.ItemInHandRendererAccessor;
 import io.github.memorytoame.immersiveeating.neoforge.network.Network;
@@ -44,7 +45,7 @@ public class InputEvents {
             if (mc.player != null) {
                 try {
                     ItemStack stack = mc.player.getMainHandItem();
-                    if (CustomRenderer.init_ItemList.contains(stack.getItem())){
+                    if (FoodDefinitionManager.init_ItemList.contains(stack.getItem())){
                         temp = stack.copy();
                         lockedHotbarSlot = mc.player.getInventory().selected;
                         PacketDistributor.sendToServer(new AnimationPacket());
@@ -149,7 +150,7 @@ public class InputEvents {
         }
         boolean usingCustomItem = mc.player.isUsingItem()
                 && mc.player.getUsedItemHand() == InteractionHand.MAIN_HAND
-                && CustomRenderer.init_ItemList.contains(mc.player.getUseItem().getItem());
+                && FoodDefinitionManager.init_ItemList.contains(mc.player.getUseItem().getItem());
 
         if (usingCustomItem) {
             if (!wasUsingCustomItem) {

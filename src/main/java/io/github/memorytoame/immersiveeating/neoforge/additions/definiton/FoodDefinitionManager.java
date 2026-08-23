@@ -21,6 +21,8 @@ public class FoodDefinitionManager extends SimpleJsonResourceReloadListener {
         super(GSON, "definitions");
     }
     public static final List<FoodDefinition> list = new ArrayList();
+    public static final List<String> init_ItemIdList = new ArrayList<>();
+    public static final List<Item> init_ItemList = new ArrayList<>();
     private static final Map<String, Map<String, String>> soundMappings = new HashMap<>();
     private static final Map<String, Set<String>> invisibleMappings = new HashMap<>();
 
@@ -29,15 +31,15 @@ public class FoodDefinitionManager extends SimpleJsonResourceReloadListener {
         list.clear();
         soundMappings.clear();
         invisibleMappings.clear();
-        CustomRenderer.init_ItemList.clear();
-        CustomRenderer.init_ItemIdList.clear();
+        init_ItemList.clear();
+        init_ItemIdList.clear();
         for (Map.Entry<ResourceLocation, JsonElement> entry : pObject.entrySet()) {
             FoodDefinition definition = GSON.fromJson(entry.getValue(), FoodDefinition.class);
             list.add(definition);
             Item item = BuiltInRegistries.ITEM.get(ResourceLocation.parse(definition.getItem()));
             if (item != null) {
-                CustomRenderer.init_ItemIdList.add(definition.getItem());
-                CustomRenderer.init_ItemList.add(item);
+                init_ItemIdList.add(definition.getItem());
+                init_ItemList.add(item);
             }
             if (definition.getSounds() != null) {
                 soundMappings.computeIfAbsent(definition.getItem(), ignored -> new HashMap<>()).putAll(definition.getSounds());

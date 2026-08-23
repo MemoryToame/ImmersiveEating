@@ -3,6 +3,7 @@ package io.github.memorytoame.immersiveeating.neoforge.events;
 import com.mojang.logging.LogUtils;
 import io.github.memorytoame.immersiveeating.neoforge.Food;
 import io.github.memorytoame.immersiveeating.neoforge.additions.CustomRenderer;
+import io.github.memorytoame.immersiveeating.neoforge.additions.definiton.FoodDefinitionManager;
 import io.github.memorytoame.immersiveeating.neoforge.client.HeldItemMotion;
 import io.github.memorytoame.immersiveeating.neoforge.mixin.Accessor.ItemInHandRendererAccessor;
 import net.minecraft.client.Minecraft;
@@ -47,7 +48,7 @@ public final class FirstPersonModEvents {
             setFirstPersonModEnabled(false);
             return;
         }
-        if (mc.player.getXRot() <= VANILLA_PITCH_MAX&& CustomRenderer.init_ItemList.contains(mc.player.getMainHandItem().getItem())) {
+        if (mc.player.getXRot() <= VANILLA_PITCH_MAX&& FoodDefinitionManager.init_ItemList.contains(mc.player.getMainHandItem().getItem())) {
             if (!forcedVanilla) {
                 previousEnabled = isFirstPersonModlEnabled();
                 forcedVanilla = true;

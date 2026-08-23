@@ -22,15 +22,25 @@ import software.bernie.geckolib.animation.PlayState;
 import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
+import java.util.function.Consumer;
+
 import static io.github.memorytoame.immersiveeating.neoforge.events.InputEvents.playCustomUseReequipAnimation;
 
 public class Empty extends Item implements GeoItem {
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
     private ItemStack stack;
+    private static Consumer<ItemStack> clientUseReequipHandler = ignored -> {};
+    private static Runnable clientCameraShakeHandler = () -> {};
+
 
     public Empty(Properties pProperties) {
         super(pProperties);
         GeoItem.registerSyncedAnimatable(this);
+    }
+
+    public static void setClientAnimationHooks(Consumer<ItemStack> useReequipHandler, Runnable cameraShakeHandler) {
+        clientUseReequipHandler = useReequipHandler;
+        clientCameraShakeHandler = cameraShakeHandler;
     }
     public ItemStack getRenderStack() {
         if (stack == null) {
@@ -75,12 +85,12 @@ public class Empty extends Item implements GeoItem {
             if (soundId != null) {
                 PacketDistributor.sendToServer(new SoundPacket(itemId, soundId));
             }
-            CameraShake.trigger();
+            clientCameraShakeHandler.run();
         });
         controller.setCustomInstructionKeyframeHandler(keyFrames ->{
             if (keyFrames.getKeyframeData().getInstructions().contains("finished")){
                 if (Food.temp != null) {
-                    playCustomUseReequipAnimation(Minecraft.getInstance(),Food.temp.copy());
+                    clientUseReequipHandler.accept(Food.temp.copy());
                     Food.temp = null;
                     //消耗物品
                     PacketDistributor.sendToServer(new FinishUsePacket(InteractionHand.MAIN_HAND));
