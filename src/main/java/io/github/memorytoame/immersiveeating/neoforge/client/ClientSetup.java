@@ -16,7 +16,6 @@ import software.bernie.geckolib.GeckoLibClient;
 public class ClientSetup {
     @SubscribeEvent
     public static void setupClient(FMLClientSetupEvent event) {
-        GeckoLibClient.init();
         Empty.setClientAnimationHooks(stack -> InputEvents.playCustomUseReequipAnimation(Minecraft.getInstance(), stack), CameraShake::trigger);
     }
     @SubscribeEvent
