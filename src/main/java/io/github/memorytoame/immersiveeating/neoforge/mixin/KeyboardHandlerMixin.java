@@ -1,6 +1,6 @@
 package io.github.memorytoame.immersiveeating.neoforge.mixin;
 
-import io.github.memorytoame.immersiveeating.neoforge.Food;
+import io.github.memorytoame.immersiveeating.neoforge.utils.AnimationUtils;
 import net.minecraft.client.KeyboardHandler;
 import org.lwjgl.glfw.GLFW;
 import org.spongepowered.asm.mixin.Mixin;
@@ -15,7 +15,7 @@ public class KeyboardHandlerMixin {
      */
     @Inject(method = "keyPress", at = @At("HEAD"), cancellable = true)
     private void food$blockHotbarKeys(long windowPointer, int key, int scanCode, int action, int modifiers, CallbackInfo ci) {
-        if (Food.lockedHotbarSlot >= 0 && key >= GLFW.GLFW_KEY_1 && key <= GLFW.GLFW_KEY_9) {
+        if (AnimationUtils.lockedHotbarSlot >= 0 && key >= GLFW.GLFW_KEY_1 && key <= GLFW.GLFW_KEY_9) {
             ci.cancel();
         }
     }

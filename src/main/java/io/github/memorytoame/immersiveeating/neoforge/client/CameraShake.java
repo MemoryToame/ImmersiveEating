@@ -48,6 +48,9 @@ public final class CameraShake {
     @SubscribeEvent
     public static void onClientTick(ClientTickEvent.Post event) {
         tick();
+        HeldItemMotion.tickInertia();
+        HeldItemMotion.tickJump();
+        HeldItemMotion.tickCrouch();
     }
     private static void tick() {
         Minecraft mc = Minecraft.getInstance();
@@ -85,7 +88,7 @@ public final class CameraShake {
         }
         float partialTick = (float) event.getPartialTick();
 
-        // Interpolate between client ticks for smooth camera motion.
+        //插帧后平滑
         float interpYaw = Mth.lerp(partialTick, prevYaw, yaw);
         float interpPitch = Mth.lerp(partialTick, prevPitch, pitch);
         float interpRoll = Mth.lerp(partialTick, prevRoll, roll);

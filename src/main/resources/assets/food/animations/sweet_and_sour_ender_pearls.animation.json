@@ -1001,14 +1001,26 @@
 				}
 			},
 			"sound_effects": {
+				"1.0": {
+					"effect": "pickup"
+				},
 				"1.45": {
 					"effect": "eating"
+				},
+				"1.95": {
+					"effect": "pickup"
 				},
 				"2.35": {
 					"effect": "eating"
 				},
+				"2.85": {
+					"effect": "pickup"
+				},
 				"3.25": {
 					"effect": "eating"
+				},
+				"3.75": {
+					"effect": "pickup"
 				},
 				"4.4": {
 					"effect": "eating"

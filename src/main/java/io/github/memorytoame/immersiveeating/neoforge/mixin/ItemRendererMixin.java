@@ -3,6 +3,7 @@ package io.github.memorytoame.immersiveeating.neoforge.mixin;
 import com.mojang.blaze3d.vertex.PoseStack;
 import io.github.memorytoame.immersiveeating.neoforge.additions.CustomRenderer;
 import io.github.memorytoame.immersiveeating.neoforge.additions.definiton.FoodDefinitionManager;
+import io.github.memorytoame.immersiveeating.neoforge.init.ModItems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.ItemRenderer;
@@ -16,6 +17,8 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import software.bernie.geckolib.animatable.GeoItem;
+import software.bernie.geckolib.GeckoLibConstants;
 
 import static io.github.memorytoame.immersiveeating.neoforge.client.TransformationMatrixProperties.NORMAL;
 
@@ -46,7 +49,12 @@ public class ItemRendererMixin {
                 customRenderer = new CustomRenderer(id.toString());//id.toString 因为构造器里有一个解析path的方法
                 CustomRenderer.rendererMap.put(id.getPath(), customRenderer);
             }
-            customRenderer.renderByItem(customRenderer.getItemStack(), context, poseStack, buffer, light, overlay);
+            ItemStack proxy = new ItemStack(ModItems.EMPTY.get());
+            long instanceId = GeoItem.getId(stack);
+            if (instanceId != Long.MAX_VALUE) {
+                proxy.set(GeckoLibConstants.STACK_ANIMATABLE_ID_COMPONENT.get(), instanceId);
+            }
+            customRenderer.renderByItem(proxy, context, poseStack, buffer, light, overlay);
             poseStack.popPose();
             ci.cancel();
         }

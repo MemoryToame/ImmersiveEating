@@ -15,7 +15,7 @@ import software.bernie.geckolib.cache.object.GeoCube;
 import software.bernie.geckolib.cache.object.GeoQuad;
 import software.bernie.geckolib.cache.object.GeoVertex;
 
-public final class VanillaArmRenderer {
+public final class  VanillaArmRenderer {
 
     private static final float PIXEL = 1.0F / 16.0F;
     private VanillaArmRenderer() {
@@ -53,7 +53,7 @@ public final class VanillaArmRenderer {
         return capturedArm;
     }
 
-    public static void renderCapturedArm(CapturedArm capturedArm, MultiBufferSource bufferSource, int packedLight) {
+    public static void renderCapturedArm(CapturedArm capturedArm, MultiBufferSource bufferSource, int packedLight, float partialTick) {
         Minecraft minecraft = Minecraft.getInstance();
 
         if (minecraft.player == null || minecraft.player.isInvisible()) {
@@ -63,6 +63,7 @@ public final class VanillaArmRenderer {
         PoseStack poseStack = new PoseStack();
         poseStack.last().pose().set(capturedArm.pose());
         poseStack.last().normal().set(capturedArm.normal());
+        HeldItemMotion.applyArmInertiaMotion(poseStack, partialTick);
         renderVanillaArm(minecraft, capturedArm, poseStack, bufferSource, packedLight);
     }
     private static void renderVanillaArm(Minecraft minecraft, CapturedArm capturedArm, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight) {
@@ -73,9 +74,9 @@ public final class VanillaArmRenderer {
             playerRenderer.renderLeftHand(poseStack, bufferSource, packedLight, minecraft.player);
         }
     }
-    public static void renderCapturedArms(Iterable<CapturedArm> capturedArms, MultiBufferSource bufferSource, int packedLight) {
+    public static void renderCapturedArms(Iterable<CapturedArm> capturedArms, MultiBufferSource bufferSource, int packedLight, float partialTick) {
         for (CapturedArm capturedArm : capturedArms) {
-            renderCapturedArm(capturedArm, bufferSource, packedLight);
+            renderCapturedArm(capturedArm, bufferSource, packedLight, partialTick);
         }
     }
 

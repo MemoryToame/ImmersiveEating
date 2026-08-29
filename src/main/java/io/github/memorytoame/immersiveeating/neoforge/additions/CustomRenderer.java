@@ -11,7 +11,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoItem;
@@ -76,17 +75,13 @@ public class CustomRenderer extends GeoItemRenderer<Empty> {
 
         super.renderByItem(stack, transformType, poseStack, bufferSource, packedLight, packedOverlay);
         poseStack.popPose();
-        VanillaArmRenderer.renderCapturedArms(capturedArms, bufferSource, packedLight);
+        VanillaArmRenderer.renderCapturedArms(capturedArms, bufferSource, packedLight, partialTick);
         capturedArms.clear();
     }
 
     @Override
     public RenderType getRenderType(Empty animatable, ResourceLocation texture, @Nullable MultiBufferSource bufferSource, float partialTick) {
         return RenderType.entityTranslucentCull(texture);
-    }
-
-    public ItemStack getItemStack() {
-        return ModItems.EMPTY.get().getRenderStack();
     }
 
     private static String getModelId(String id) {
@@ -113,7 +108,11 @@ public class CustomRenderer extends GeoItemRenderer<Empty> {
     }
 
     private boolean isPlayingAnimation() {
-        long instanceId = GeoItem.getId(getItemStack());
+        ItemStack stack = getCurrentItemStack();
+        if (stack == null || stack.isEmpty()) {
+            return false;
+        }
+        long instanceId = GeoItem.getId(stack);
         AnimationController<?> controller = ModItems.EMPTY.get().getAnimatableInstanceCache()
                 .getManagerForId(instanceId)
                 .getAnimationControllers()

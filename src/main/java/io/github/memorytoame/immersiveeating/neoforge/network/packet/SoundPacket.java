@@ -12,16 +12,8 @@ import net.minecraft.sounds.SoundSource;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 public record SoundPacket(ResourceLocation itemId, ResourceLocation soundId) implements CustomPacketPayload {
-    public static final Type<SoundPacket> TYPE = new Type<>(
-            ResourceLocation.fromNamespaceAndPath(Food.MODID, "sound")
-    );
-    public static final StreamCodec<RegistryFriendlyByteBuf, SoundPacket> STREAM_CODEC = StreamCodec.composite(
-            ResourceLocation.STREAM_CODEC,
-            SoundPacket::itemId,
-            ResourceLocation.STREAM_CODEC,
-            SoundPacket::soundId,
-            SoundPacket::new
-    );
+    public static final Type<SoundPacket> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(Food.MODID, "sound"));
+    public static final StreamCodec<RegistryFriendlyByteBuf, SoundPacket> STREAM_CODEC = StreamCodec.composite(ResourceLocation.STREAM_CODEC, SoundPacket::itemId, ResourceLocation.STREAM_CODEC, SoundPacket::soundId, SoundPacket::new);
 
     @Override
     public Type<SoundPacket> type() {
@@ -29,15 +21,14 @@ public record SoundPacket(ResourceLocation itemId, ResourceLocation soundId) imp
     }
 
     public static void handle(SoundPacket payload, IPayloadContext context) {
-        if (!(context.player() instanceof ServerPlayer player)) {
+        if (!(context.player() instanceof ServerPlayer sp)) {
             return;
         }
-        ResourceLocation heldId = BuiltInRegistries.ITEM.getKey(player.getMainHandItem().getItem());
+        ResourceLocation heldId = BuiltInRegistries.ITEM.getKey(sp.getMainHandItem().getItem());
         if (!payload.itemId.equals(heldId)) {
             return;
         }
 
-        player.serverLevel().playSound(null, player.getX(), player.getY(), player.getZ(),
-                SoundEvent.createVariableRangeEvent(payload.soundId), SoundSource.PLAYERS, 1.0F, 1.0F);
+        sp.serverLevel().playSound(null, sp.getX(), sp.getY(), sp.getZ(), SoundEvent.createVariableRangeEvent(payload.soundId), SoundSource.PLAYERS, 1.0F, 1.0F);
     }
 }

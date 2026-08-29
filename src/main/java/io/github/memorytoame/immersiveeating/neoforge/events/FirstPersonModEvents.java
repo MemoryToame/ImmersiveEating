@@ -6,6 +6,7 @@ import io.github.memorytoame.immersiveeating.neoforge.additions.CustomRenderer;
 import io.github.memorytoame.immersiveeating.neoforge.additions.definiton.FoodDefinitionManager;
 import io.github.memorytoame.immersiveeating.neoforge.client.HeldItemMotion;
 import io.github.memorytoame.immersiveeating.neoforge.mixin.Accessor.ItemInHandRendererAccessor;
+import io.github.memorytoame.immersiveeating.neoforge.utils.AnimationUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.api.distmarker.Dist;
@@ -33,9 +34,7 @@ public final class FirstPersonModEvents {
 
     @SubscribeEvent
     public static void onClientTick(ClientTickEvent.Post event) {
-        HeldItemMotion.tickInertia();
-        HeldItemMotion.tickJump();
-        HeldItemMotion.tickCrouch();
+
         Minecraft mc = Minecraft.getInstance();
         if (mc.player == null || !mc.options.getCameraType().isFirstPerson()) {
             restorePreviousState();
@@ -44,24 +43,26 @@ public final class FirstPersonModEvents {
         if (!findApi()) {
             return;
         }
-        if (InputEvents.isAnimationLocked()){
-            setFirstPersonModEnabled(false);
+        if (AnimationUtils.isAnimationLocked()){
+            forceVanillaFirstPerson(mc);
             return;
         }
         if (mc.player.getXRot() <= VANILLA_PITCH_MAX&& FoodDefinitionManager.init_ItemList.contains(mc.player.getMainHandItem().getItem())) {
-            if (!forcedVanilla) {
-                previousEnabled = isFirstPersonModlEnabled();
-                forcedVanilla = true;
-                if (previousEnabled) {
-                    playVanillaReequipAnimation(mc);
-                }
-            }
-            setFirstPersonModEnabled(false);
+            forceVanillaFirstPerson(mc);
         } else {
             restorePreviousState();
         }
     }
-
+    private static void forceVanillaFirstPerson(Minecraft minecraft) {
+        if (!forcedVanilla) {
+            previousEnabled = isFirstPersonModlEnabled();
+            forcedVanilla = true;
+            if (previousEnabled) {
+                playVanillaReequipAnimation(minecraft);
+            }
+        }
+        setFirstPersonModEnabled(false);
+    }
     @SubscribeEvent
     public static void onClientLogout(ClientPlayerNetworkEvent.LoggingOut event) {
         restorePreviousState();
