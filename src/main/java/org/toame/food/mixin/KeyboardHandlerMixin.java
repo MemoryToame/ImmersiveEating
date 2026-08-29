@@ -7,6 +7,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.toame.food.Food;
+import org.toame.food.utils.AnimationUtils;
 
 @Mixin(KeyboardHandler.class)
 public class KeyboardHandlerMixin {
@@ -15,7 +16,7 @@ public class KeyboardHandlerMixin {
      */
     @Inject(method = "keyPress", at = @At("HEAD"), cancellable = true)
     private void food$blockHotbarKeys(long windowPointer, int key, int scanCode, int action, int modifiers, CallbackInfo ci) {
-        if (Food.lockedHotbarSlot >= 0 && key >= GLFW.GLFW_KEY_1 && key <= GLFW.GLFW_KEY_9) {
+        if (AnimationUtils.lockedHotbarSlot >= 0 && key >= GLFW.GLFW_KEY_1 && key <= GLFW.GLFW_KEY_9) {
             ci.cancel();
         }
     }

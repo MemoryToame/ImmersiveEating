@@ -2,9 +2,14 @@ package org.toame.food.network.packet;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraftforge.network.NetworkEvent;
+import net.minecraftforge.registries.ForgeRegistries;
+import org.toame.food.unique.UniqueItem;
 
 import java.util.function.Supplier;
 
@@ -33,7 +38,12 @@ public class FinishUsePacket {
             }
 
             ItemStack stack = sp.getItemInHand(packet.hand);
-
+            if (UniqueItem.UNIQUE_ITEM_MAP.get(ForgeRegistries.ITEMS.getKey(stack.getItem()))!=null){
+                stack.shrink(1);
+                sp.setItemInHand(packet.hand,stack);
+                sp.getInventory().add(new ItemStack(Items.BOWL,1));
+                sp.playNotifySound(SoundEvents.ITEM_PICKUP, SoundSource.PLAYERS, 1.0F, 1.0F);
+            }
             if (stack.isEmpty() || !stack.isEdible() || stack.getUseDuration() <= 0) {
                 return;
             }

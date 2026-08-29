@@ -51,6 +51,9 @@ public final class CameraShake {
             return;
         }
         tick();
+        HeldItemMotion.tickInertia();
+        HeldItemMotion.tickJump();
+        HeldItemMotion.tickCrouch();
     }
     private static void tick() {
         Minecraft mc = Minecraft.getInstance();

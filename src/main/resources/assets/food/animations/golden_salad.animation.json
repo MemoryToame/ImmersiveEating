@@ -2434,20 +2434,38 @@
 				}
 			},
 			"sound_effects": {
+				"0.3667": {
+					"effect": "pickup"
+				},
 				"1.0667": {
 					"effect": "eating"
+				},
+				"1.7833": {
+					"effect": "pickup"
 				},
 				"2.1667": {
 					"effect": "eating"
 				},
+				"3.3667": {
+					"effect": "pickup"
+				},
 				"4.2833": {
 					"effect": "eating"
+				},
+				"5.0167": {
+					"effect": "pickup"
 				},
 				"5.4333": {
 					"effect": "eating"
 				},
+				"6.5833": {
+					"effect": "pickup"
+				},
 				"7.2": {
 					"effect": "eating"
+				},
+				"8.1": {
+					"effect": "pickup"
 				},
 				"8.8": {
 					"effect": "eating"

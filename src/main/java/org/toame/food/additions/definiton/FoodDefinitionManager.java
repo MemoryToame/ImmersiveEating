@@ -41,7 +41,8 @@ public class FoodDefinitionManager extends SimpleJsonResourceReloadListener {
         for (Map.Entry<ResourceLocation, JsonElement> entry : pObject.entrySet()) {
             FoodDefinition definition = GSON.fromJson(entry.getValue(), FoodDefinition.class);
             list.add(definition);
-            Item item = ForgeRegistries.ITEMS.getValue(ResourceLocation.parse(definition.getItem()));
+            ResourceLocation itemId = ResourceLocation.tryParse(definition.getItem());
+            Item item = itemId == null ? null : ForgeRegistries.ITEMS.getValue(itemId);
             if (item != null) {
                 init_ItemIdList.add(definition.getItem());
                 init_ItemList.add(item);

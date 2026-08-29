@@ -12,8 +12,8 @@ import net.minecraftforge.fml.common.Mod;
 import org.slf4j.Logger;
 import org.toame.food.Food;
 import org.toame.food.additions.definiton.FoodDefinitionManager;
-import org.toame.food.client.HeldItemMotion;
 import org.toame.food.mixin.Accessor.ItemInHandRendererAccessor;
+import org.toame.food.utils.AnimationUtils;
 
 import java.lang.reflect.Method;
 
@@ -23,6 +23,7 @@ public final class FirstPersonModEvents {
     private static final float VANILLA_PITCH_MAX = 60.0F;
     private static final Logger LOGGER = LogUtils.getLogger();
     private static boolean lookupDone;
+    //强制使用原版第一人称
     private static boolean forcedVanilla;
     private static boolean previousEnabled;
     private static Method isEnabledMethod;
@@ -36,9 +37,6 @@ public final class FirstPersonModEvents {
         if (event.phase != TickEvent.Phase.END) {
             return;
         }
-        HeldItemMotion.tickInertia();
-        HeldItemMotion.tickJump();
-        HeldItemMotion.tickCrouch();
         Minecraft mc = Minecraft.getInstance();
         if (mc.player == null || !mc.options.getCameraType().isFirstPerson()) {
             restorePreviousState();
@@ -47,19 +45,12 @@ public final class FirstPersonModEvents {
         if (!findApi()) {
             return;
         }
-        if (InputEvents.isAnimationLocked()){
-            setFirstPersonModEnabled(false);
+        if (AnimationUtils.isAnimationLocked()){
+            forceVanillaFirstPerson(mc);
             return;
         }
         if (mc.player.getXRot() <= VANILLA_PITCH_MAX&& FoodDefinitionManager.init_ItemList.contains(mc.player.getMainHandItem().getItem())) {
-            if (!forcedVanilla) {
-                previousEnabled = isFirstPersonModlEnabled();
-                forcedVanilla = true;
-                if (previousEnabled) {
-                    playVanillaReequipAnimation(mc);
-                }
-            }
-            setFirstPersonModEnabled(false);
+            forceVanillaFirstPerson(mc);
         } else {
             restorePreviousState();
         }
@@ -103,6 +94,17 @@ public final class FirstPersonModEvents {
         } catch (ReflectiveOperationException | RuntimeException exception) {
             LOGGER.warn("Could not change FirstPersonMod state.", exception);
         }
+    }
+
+    private static void forceVanillaFirstPerson(Minecraft minecraft) {
+        if (!forcedVanilla) {
+            previousEnabled = isFirstPersonModlEnabled();
+            forcedVanilla = true;
+            if (previousEnabled) {
+                playVanillaReequipAnimation(minecraft);
+            }
+        }
+        setFirstPersonModEnabled(false);
     }
 
     private static void playVanillaReequipAnimation(Minecraft minecraft) {

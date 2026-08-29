@@ -30,7 +30,10 @@ public class SoundJson {
                     continue;
                 }
 
-                ResourceLocation soundId = ResourceLocation.parse(sound_namespace);
+                ResourceLocation soundId = ResourceLocation.tryParse(sound_namespace);
+                if (soundId == null) {
+                    continue;
+                }
                 String name = soundId.getPath(); //如果是eat:eating则为eating
 
                 addSound(root, name, soundId.toString());

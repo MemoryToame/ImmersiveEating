@@ -1,7 +1,5 @@
 package org.toame.food.client;
 
-import static org.toame.food.Food.*;
-
 public enum TransformationMatrixProperties {
     //NORMAL(-1.5F,0.05F,-0.3F,0.55F),
     NORMAL(-1.05F,-0.35F,-0.8F,0.55F);

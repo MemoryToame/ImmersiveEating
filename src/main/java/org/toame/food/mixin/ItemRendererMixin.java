@@ -16,6 +16,8 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.toame.food.additions.CustomRenderer;
 import org.toame.food.additions.definiton.FoodDefinitionManager;
+import org.toame.food.init.ModItems;
+import software.bernie.geckolib.animatable.GeoItem;
 
 import static org.toame.food.additions.CustomRenderer.rendererMap;
 import static org.toame.food.client.TransformationMatrixProperties.NORMAL;
@@ -46,7 +48,12 @@ public class ItemRendererMixin {
                 customRenderer = new CustomRenderer(id.toString()); //id.toString 因为构造器里有一个解析path的方法
                 rendererMap.put(id.getPath(), customRenderer);
             }
-            customRenderer.renderByItem(customRenderer.getItemStack(), context, poseStack, buffer, light, overlay);
+            ItemStack proxy = new ItemStack(ModItems.EMPTY.get());
+            long instanceId = GeoItem.getId(stack);
+            if (instanceId != Long.MAX_VALUE) {
+                proxy.getOrCreateTag().putLong(GeoItem.ID_NBT_KEY, instanceId);
+            }
+            customRenderer.renderByItem(proxy, context, poseStack, buffer, light, overlay);
             poseStack.popPose();
             ci.cancel();
         }

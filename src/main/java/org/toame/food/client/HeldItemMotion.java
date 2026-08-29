@@ -7,7 +7,8 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
 
-import static org.toame.food.events.InputEvents.isAnimationLocked;
+import static org.toame.food.utils.AnimationUtils.isAnimationLocked;
+
 
 public class HeldItemMotion {
     /*
@@ -24,6 +25,11 @@ public class HeldItemMotion {
     private static float inertiaRoll;
     private static float inertiaRollVel;
 
+    private static float armInertiaPitch;
+    private static float armInertiaPitchVel;
+    private static float armInertiaRoll;
+    private static float armInertiaRollVel;
+
     private static boolean wasOnGround = true;
     private static float prevVerticalVel;
 
@@ -35,6 +41,8 @@ public class HeldItemMotion {
 
     private static float prevInertiaPitch;
     private static float prevInertiaRoll;
+    private static float prevArmInertiaPitch;
+    private static float prevArmInertiaRoll;
     private static float prevJumpY;
     private static float prevJumpPitch;
 
@@ -96,8 +104,8 @@ public class HeldItemMotion {
         float x = Mth.sin(phase) * 0.003F * amount;
         float y = Mth.cos(phase * 2.0F) * 0.0025F * amount;
 
-        float pitch = Mth.cos(phase * 2.0F) * 0.45F * amount;//弹性
-        float roll = Mth.sin(phase) * 0.55F * amount;
+        float pitch = Mth.cos(phase * 2.0F) * 0.05F * amount;//弹性
+        float roll = Mth.sin(phase) * 0.035F * amount;
 
         poseStack.translate(x, y, 0.0F);
 
@@ -132,6 +140,8 @@ public class HeldItemMotion {
         }
         prevInertiaPitch = inertiaPitch;
         prevInertiaRoll = inertiaRoll;
+        prevArmInertiaPitch = armInertiaPitch;
+        prevArmInertiaRoll = armInertiaRoll;
         Player player = mc.player;
         //get运动矢量
         Vec3 vel = player.getDeltaMovement();
@@ -179,6 +189,21 @@ public class HeldItemMotion {
 
         inertiaRoll = Mth.clamp(inertiaRoll, -6.0F, 6.0F);
         prevHorizontalVel = currHorizontalVel;
+
+
+        armInertiaPitchVel -= forwardAcceleration *8.0F;
+        armInertiaRollVel += sideAcceleration * 5.0F;
+
+        armInertiaPitchVel += -armInertiaPitch * 0.12F;
+        armInertiaPitchVel *= 0.45F;
+        armInertiaPitch += armInertiaPitchVel;
+
+        armInertiaRollVel += -armInertiaRoll * 0.12F;
+        armInertiaRollVel *= 0.45F;
+        armInertiaRoll += armInertiaRollVel;
+
+        armInertiaPitch = Mth.clamp(armInertiaPitch, -3.5F, 3.5F);
+        armInertiaRoll = Mth.clamp(armInertiaRoll, -2.5F, 2.5F);
     }
 
     public static void resetInertia() {
@@ -189,7 +214,32 @@ public class HeldItemMotion {
 
         inertiaRoll = 0.0F;
         inertiaRollVel = 0.0F;
+
+        armInertiaPitch = 0.0F;
+        armInertiaPitchVel = 0.0F;
+        armInertiaRoll = 0.0F;
+        armInertiaRollVel = 0.0F;
     }
+
+    public static void applyArmInertiaMotion(PoseStack poseStack, float partialTick) {
+        Minecraft mc = Minecraft.getInstance();
+        if (mc.player == null) {
+            return;
+        }
+
+        float pitch = Mth.lerp(partialTick, prevArmInertiaPitch, armInertiaPitch);
+        float roll = Mth.lerp(partialTick, prevArmInertiaRoll, armInertiaRoll);
+        float intensity = isAnimationLocked() ? 0.35F : 0.5F;
+        float walkPhase = mc.player.walkAnimation.position(partialTick);
+        float walkAmount = Mth.clamp(mc.player.walkAnimation.speed(partialTick) * 1.1F, 0.0F, 1.0F);
+        //摇晃太多 改周期
+        float z = Mth.cos(walkPhase*0.6F + 0.6F) * 0.0075F * walkAmount * intensity;
+
+        poseStack.translate(0.0F, 0.0F, z);
+        poseStack.mulPose(Axis.XP.rotationDegrees(pitch * intensity));
+        poseStack.mulPose(Axis.ZP.rotationDegrees(roll * intensity));
+    }
+
     //
     public static void tickJump() {
         Minecraft mc = Minecraft.getInstance();
@@ -206,14 +256,16 @@ public class HeldItemMotion {
 
         //fly！！！
         if (wasOnGround && !onGround && vel.y > 0.05) {
-            jumpYVel += 0.035F;
-            jumpPitchVel -= 1.0F;
+            //上下移动强度
+
+            jumpYVel += 0.0025F;
+            jumpPitchVel -= 0.3F;
         }
         //landing
         if (!wasOnGround && onGround && prevVerticalVel < -0.05F) {
             //落地强度
             float impact = Mth.clamp(-prevVerticalVel * 1.5F, 0.0F, 1.0F);
-            //0.035f 1.4F系数越小落地越软
+            //0.035f 1.4F系数越小落地越软 或者说落地上下摇晃程度
             jumpYVel -= 0.025F + impact * 0.035F;
             jumpPitchVel += 0.8F + impact * 1.4F;
         }
@@ -230,7 +282,7 @@ public class HeldItemMotion {
 
         jumpY = Mth.clamp(jumpY, -0.08F, 0.08F);
 
-        jumpPitch = Mth.clamp(jumpPitch, -5.0F, 5.0F);
+        jumpPitch = Mth.clamp(jumpPitch, -5.0F, 0.65F);
 
         prevVerticalVel = (float) vel.y;
         wasOnGround = onGround;
