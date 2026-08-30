@@ -1,6 +1,6 @@
 {
 	"item": "kaleidoscope_cookery:red_mushroom_pot_soup",
-	"invisible": [],
+	"invisible": ["chopsticks"],
 	"sounds": {
 		"eating": "food:eat",
 		"soup": "food:soup"

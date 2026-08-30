@@ -31,7 +31,6 @@ public class Empty extends Item implements GeoItem {
     private static Supplier<ItemStack> clientAnimationStackSupplier = () -> ItemStack.EMPTY;
     private static Runnable clientAnimationStackClearHandler = () -> {};
     private static Runnable clientHotbarUnlockHandler = () -> {};
-    private static Predicate<Item> clientMainHandItemChecker = item -> false;
     private static Supplier<Item> clientGetMainHandItem = () -> {return null;};
 
 
@@ -47,9 +46,6 @@ public class Empty extends Item implements GeoItem {
         clientAnimationStackClearHandler = animationStackClearHandler;
         clientHotbarUnlockHandler = hotbarUnlockHandler;
         clientGetMainHandItem = mainHandItem;
-    }
-    public static void setMainHandItemChecker(Predicate<Item> checker) {
-        clientMainHandItemChecker = checker;
     }
     public static void stopEatAnimation() {
         Empty empty = ModItems.EMPTY.get();
