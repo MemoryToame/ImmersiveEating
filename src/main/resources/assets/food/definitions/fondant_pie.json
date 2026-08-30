@@ -1,6 +1,6 @@
 {
 	"item": "kaleidoscope_cookery:fondant_pie",
-	"invisible": ["kuaizi"],
+	"invisible": ["threek"],
 	"sounds": {
 		"eating": "food:eat"
 	}

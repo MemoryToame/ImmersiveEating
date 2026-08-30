@@ -27,11 +27,6 @@ public class ClientSetup {
                 () -> AnimationUtils.lockedHotbarSlot = -1,
                 ()-> Minecraft.getInstance().player.getMainHandItem().getItem()
         );
-        Empty.setMainHandItemChecker(item -> {
-            Minecraft mc = Minecraft.getInstance();
-            return mc.player != null && mc.player.getMainHandItem().is(item);
-        });
-
     }
 
     @SubscribeEvent

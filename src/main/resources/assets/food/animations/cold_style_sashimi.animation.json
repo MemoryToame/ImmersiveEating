@@ -912,26 +912,14 @@
 				}
 			},
 			"sound_effects": {
-				"1.2": {
-					"effect": "pickup"
-				},
 				"1.95": {
 					"effect": "eating"
-				},
-				"2.6": {
-					"effect": "pickup"
 				},
 				"3.35": {
 					"effect": "eating"
 				},
-				"4.0": {
-					"effect": "pickup"
-				},
 				"4.75": {
 					"effect": "eating"
-				},
-				"5.4": {
-					"effect": "pickup"
 				},
 				"6.15": {
 					"effect": "eating"

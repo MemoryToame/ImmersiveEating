@@ -3913,26 +3913,14 @@
 				}
 			},
 			"sound_effects": {
-				"2.25": {
-					"effect": "pickup"
-				},
 				"3.1667": {
 					"effect": "eating"
-				},
-				"3.9167": {
-					"effect": "pickup"
 				},
 				"4.5": {
 					"effect": "eating"
 				},
-				"5.3333": {
-					"effect": "pickup"
-				},
 				"6.0833": {
 					"effect": "eating"
-				},
-				"6.9167": {
-					"effect": "pickup"
 				},
 				"8.2917": {
 					"effect": "eating"
