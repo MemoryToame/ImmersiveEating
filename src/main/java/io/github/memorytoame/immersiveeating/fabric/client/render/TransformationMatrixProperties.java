@@ -1,5 +1,9 @@
 package io.github.memorytoame.immersiveeating.fabric.client.render;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+
+@Environment(EnvType.CLIENT)
 public enum TransformationMatrixProperties {
    NORMAL(-1.05F, -0.35F, -0.8F, 0.55F);
 

@@ -14,6 +14,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -35,6 +38,7 @@ import software.bernie.geckolib.model.GeoModel;
 import software.bernie.geckolib.renderer.GeoItemRenderer;
 import software.bernie.geckolib.util.RenderUtil;
 
+@Environment(EnvType.CLIENT)
 public class CustomRenderer extends GeoItemRenderer<Empty> {
    public static Map<String, CustomRenderer> rendererMap = new HashMap<>(32);
    private final List<VanillaArmRenderer.CapturedArm> capturedArms = new ArrayList<>(8);

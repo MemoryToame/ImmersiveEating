@@ -1,6 +1,9 @@
 package io.github.memorytoame.immersiveeating.fabric.client.render;
 
 import java.util.Set;
+
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -8,6 +11,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.HumanoidArm;
 import org.joml.Matrix4f;
 
+@Environment(EnvType.CLIENT)
 public enum ArmModelOffset {
    WIDE(new Matrix4f(), new Matrix4f()),
    SLIM(new Matrix4f(), new Matrix4f().translation(-0.0625F, 0.0F, 0.0F));

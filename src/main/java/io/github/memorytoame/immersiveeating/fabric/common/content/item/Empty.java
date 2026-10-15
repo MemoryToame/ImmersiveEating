@@ -77,7 +77,7 @@ public class Empty extends Item implements GeoItem {
    public static void stopEatAnimation(long instanceId) {
       clientSoundStopHandler.run();
       Empty empty = ModItems.EMPTY;
-      AnimationController<?> controller = (AnimationController<?>)empty.getAnimatableInstanceCache()
+      AnimationController<?> controller = empty.getAnimatableInstanceCache()
          .getManagerForId(instanceId)
          .getAnimationControllers()
          .get("eat");
@@ -94,7 +94,7 @@ public class Empty extends Item implements GeoItem {
       if (stack != null && !stack.isEmpty()) {
          long instanceId = resolveControllerId(stack);
          Empty empty = ModItems.EMPTY;
-         AnimationController<?> controller = (AnimationController<?>)empty.getAnimatableInstanceCache()
+         AnimationController<?> controller = empty.getAnimatableInstanceCache()
             .getManagerForId(instanceId)
             .getAnimationControllers()
             .get(controllerName);
@@ -108,7 +108,7 @@ public class Empty extends Item implements GeoItem {
       if (stack != null && !stack.isEmpty()) {
          Empty empty = ModItems.EMPTY;
          long instanceId = resolveControllerId(stack);
-         AnimationController<?> controller = (AnimationController<?>)empty.getAnimatableInstanceCache()
+         AnimationController<?> controller = empty.getAnimatableInstanceCache()
             .getManagerForId(instanceId)
             .getAnimationControllers()
             .get(controllerName);
@@ -140,7 +140,7 @@ public class Empty extends Item implements GeoItem {
                   ResourceLocation soundId = FoodDefinitionManager.getSound(itemId.toString(), soundKey);
                   if (soundId != null && clientGetMainHandItem.get() != null) {
                      if (UniqueItem.UNIQUE_ITEM_MAP.get(BuiltInRegistries.ITEM.getKey(clientGetMainHandItem.get())) != null) {
-                        Item child_item = (Item)BuiltInRegistries.ITEM
+                        Item child_item = BuiltInRegistries.ITEM
                            .get(UniqueItem.UNIQUE_ITEM_MAP.get(BuiltInRegistries.ITEM.getKey(clientGetMainHandItem.get())));
                         if (child_item != null) {
                            clientCustomUseHandler.accept(InteractionHand.MAIN_HAND, child_item);
