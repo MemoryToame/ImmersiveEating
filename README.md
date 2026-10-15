@@ -4,9 +4,10 @@
 
 **让食物在第一人称中拥有专属模型与进食动画。**
 
-[![Minecraft](https://img.shields.io/badge/Minecraft-1.20.1%20%7C%201.21.1-62B47A?style=flat-square)](https://www.minecraft.net/)
+[![Minecraft](https://img.shields.io/badge/Minecraft-1.20.1%20%7C%201.21.1%20%7C%2026.x-62B47A?style=flat-square)](https://www.minecraft.net/)
 [![Forge](https://img.shields.io/badge/Forge-47.4.22-EA7F00?style=flat-square)](https://files.minecraftforge.net/)
 [![NeoForge](https://img.shields.io/badge/NeoForge-21.1.248-E04E14?style=flat-square)](https://neoforged.net/)
+[![NeoForge](https://img.shields.io/badge/Fabric-0.19.5-EBD791?style=flat-square)](https://fabricmc.net/)
 [![Code License](https://img.shields.io/badge/Code-GPL--3.0--only-blue?style=flat-square)](LICENSE)
 [![Assets License](https://img.shields.io/badge/Assets-CC%20BY--NC--ND%204.0-lightgrey?style=flat-square)](LICENSE-ASSETS)
 
@@ -18,16 +19,16 @@
 
 ## 简介
 
-Kaleidoscope: ImmersiveEating 是一个面向 Minecraft Forge 1.20.1以及NeoForge 1.21.1 的第一人称进食动画模组，已与森罗物语（Kaleidoscope Cookery）进行联动。
+Kaleidoscope: ImmersiveEating 是一个第一人称进食动画模组，已与森罗物语（Kaleidoscope Cookery）进行联动。
 
 它会为已配置的食物加载独立的 Blockbench/GeckoLib 模型、材质与动画；按下 `U` 后播放进食动画和关键帧音效。动画播放期间会锁定主手快捷栏，结束时使用原版重新装备动画自然地回到手持状态。
 
 ### 环境
 
-- Minecraft `1.20.1` NeoForge: `1.21.1`
-- Forge `47.4.22` NeoForge: `21.1.248`
-- GeckoLib `4.8.2` NeoForge: `4.8.4`
-- 森罗物语（Kaleidoscope Cookery）`1.4.1-forge+mc1.20.1`（单向联动） NeoForge:`1.4.1-neoforge+mc1.21.1`
+- Minecraft `1.20.1` `1.21.1`
+- Forge `47.4.22` NeoForge: `21.1.248` Fabric `0.19.5`
+- GeckoLib `4.8.2` NeoForge: `4.8.4` Fabric: `4.9.3`
+- 森罗物语（Kaleidoscope Cookery）`1.6.0-forge+mc1.20.1`（单向联动） NeoForge:`1.6.0-neoforge+mc1.21.1` Fabric(refabricated):`1.6.0.5-fabric+mc1.21.1`
 ## 扩展
 一个食物扩展由定义、模型、动画和材质组成：
 
@@ -79,6 +80,11 @@ textures/item/example_food.png
 - hmrrr
 - 杨晨七
 - Liz
+
+### Fabric Port
+
+- NightEpiphany (灵夜风和)
+
 ### 以及全体热爱mc的玩家
 ## 许可
 
