@@ -1,9 +1,42 @@
-/run-data/
-/run/
-/.idea/
-/build/
-/.gradle/
-/libs/
-/src.zip
-/hs_err_pid*.log
-/src/generated/resources/.cache/
+# gradle
+
+.gradle/
+build/
+out/
+classes/
+
+# eclipse
+
+*.launch
+
+# idea
+
+.idea/
+*.iml
+*.ipr
+*.iws
+logs/
+ref/
+
+# vscode
+
+.settings/
+.vscode/
+bin/
+.classpath
+.project
+
+# macos
+
+*.DS_Store
+
+# fabric
+
+run/
+
+# java
+
+hs_err_*.log
+replay_*.log
+*.hprof
+*.jfr

@@ -2334,13 +2334,10 @@
 				}
 			},
 			"sound_effects": {
-				"2.6833": {
+				"2.65": {
 					"effect": "eating"
 				},
-				"4.4": {
-					"effect": "eating"
-				},
-				"7.2333": {
+				"6.9333": {
 					"effect": "eating"
 				}
 			},

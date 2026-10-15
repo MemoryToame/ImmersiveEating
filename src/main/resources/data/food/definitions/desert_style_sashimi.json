@@ -1,0 +1,8 @@
+{
+	"item": "kaleidoscope_cookery:desert_style_sashimi",
+	"invisible": ["kuaizi"],
+	"sounds": {
+		"desert_style_sashimi_switchin": "food:desert_style_sashimi_switchin",
+		"sashimi": "food:sashimi"
+	}
+}

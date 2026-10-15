@@ -1,23 +1,24 @@
 {
-  "required": true,
-  "minVersion": "0.8",
-  "package": "org.toame.food.mixin",
-  "compatibilityLevel": "JAVA_17",
-  "refmap": "food.refmap.json",
-  "mixins": [
-  ],
-  "client": [
-    "ClientPackSourceMixin",
-    "Accessor.ItemInHandRendererAccessor",
-    "KeyboardHandlerMixin",
-    "ItemRendererMixin",
-    "PunchyConfigMixin",
-    "PlayerRendererMixin"
-  ],
-  "injectors": {
-    "defaultRequire": 1
-  },
-  "overwrites": {
-    "requireAnnotations": true
-  }
+	"required": true,
+	"package": "io.github.memorytoame.immersiveeating.fabric.client.mixin",
+	"compatibilityLevel": "JAVA_21",
+	"plugin": "io.github.memorytoame.immersiveeating.fabric.plugin.Plugins",
+	"mixins": [],
+	"client": [
+      "accessor.ItemInHandRendererAccessor",
+		"CameraMixin",
+		"ClientPackSourceMixin",
+		"GuiMixin",
+		"ItemInHandRendererMixin",
+		"ItemRendererMixin",
+		"KeyboardHandlerMixin",
+		"PlayerRendererMixin",
+		"PunchyConfigMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	},
+	"overwrites": {
+		"requireAnnotations": true
+	}
 }

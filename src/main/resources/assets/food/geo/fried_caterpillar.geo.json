@@ -1,5 +1,5 @@
 {
-	"format_version": "1.21.110",
+	"format_version": "1.12.0",
 	"minecraft:geometry": [
 		{
 			"description": {
@@ -11,10 +11,6 @@
 				"visible_bounds_offset": [0, 0, 0]
 			},
 			"bones": [
-				{
-					"name": "bb_main",
-					"pivot": [0, 0, 0]
-				},
 				{
 					"name": "root",
 					"pivot": [0, 3, 0]
@@ -517,6 +513,11 @@
 							}
 						}
 					]
+				},
+				{
+					"name": "camera",
+					"parent": "root",
+					"pivot": [0, 3, 0]
 				}
 			]
 		}

@@ -1,0 +1,8 @@
+{
+	"item": "kaleidoscope_cookery:fondant_pie",
+	"invisible": ["threek"],
+	"sounds": {
+		"fondant_pie": "food:fondant_pie",
+		"fondant_pie_switchin": "food:fondant_pie_switchin"
+	}
+}

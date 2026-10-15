@@ -2,6 +2,7 @@
 	"item": "kaleidoscope_cookery:fried_caterpillar",
 	"invisible": [],
 	"sounds": {
-		"eating": "food:eat"
+		"fried_caterpillar": "food:fried_caterpillar",
+		"fried_caterpillar_switchin": "food:fried_caterpillar_switchin"
 	}
 }

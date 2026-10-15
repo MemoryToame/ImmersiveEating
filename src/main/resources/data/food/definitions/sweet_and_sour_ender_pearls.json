@@ -1,0 +1,7 @@
+{
+	"item": "kaleidoscope_cookery:sweet_and_sour_ender_pearls",
+	"invisible": ["kuaizi"],
+	"sounds": {
+		"eating": "food:eat"
+	}
+}

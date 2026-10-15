@@ -1,0 +1,40 @@
+{
+	"schemaVersion": 1,
+	"id": "food",
+	"version": "${version}",
+	"name": "Kaleidoscope Immersive Eating",
+	"description": "Brings brand-new eating animations and an immersive experience to Kaleidoscope Cookery",
+	"authors": [
+		"XianYue", "NightEpiphany"
+	],
+	"contact": {
+		"sources": "https://github.com/MemoryToame/ImmersiveEating",
+		"issues": "https://github.com/MemoryToame/ImmersiveEating/issues"
+	},
+	"license": "GNU GPL 3.0",
+	"icon": "pack.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"io.github.memorytoame.immersiveeating.fabric.KaleidoscopeImmersiveEating"
+		],
+		"client": [
+			"io.github.memorytoame.immersiveeating.fabric.KaleidoscopeImmersiveEatingClient"
+		]
+	},
+	"mixins": [
+		"food.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.19.3",
+		"minecraft": "~1.21.1",
+		"java": ">=21",
+		"fabric-api": "*",
+		"geckolib": ">=4.9",
+		"forgeconfigapiport": ">=21.1.6",
+		"kaleidoscope_cookery": ">=1.6.0"
+	},
+	"suggests": {
+		"kaleidoscope_tavern": "*"
+	}
+}

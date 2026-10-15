@@ -1,0 +1,8 @@
+{
+	"item": "kaleidoscope_cookery:sakura_fubuki",
+	"invisible": ["rightArm"],
+	"sounds": {
+		"sakura_fubuki": "food:sakura_fubuki",
+		"sakura_fubuki_switchin": "food:sakura_fubuki_switchin"
+	}
+}
