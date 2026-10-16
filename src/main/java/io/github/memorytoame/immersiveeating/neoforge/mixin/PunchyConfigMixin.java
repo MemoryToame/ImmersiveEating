@@ -1,7 +1,6 @@
 package io.github.memorytoame.immersiveeating.neoforge.mixin;
 
-import io.github.memorytoame.immersiveeating.neoforge.additions.CustomRenderer;
-import io.github.memorytoame.immersiveeating.neoforge.additions.definiton.FoodDefinitionManager;
+import io.github.memorytoame.immersiveeating.neoforge.common.content.definition.FoodDefinitionManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;

@@ -1,0 +1,71 @@
+package io.github.memorytoame.immersiveeating.neoforge.common.content.definition;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
+import net.minecraft.util.profiling.ProfilerFiller;
+import net.minecraft.world.item.Item;
+
+import java.util.*;
+
+public class FoodDefinitionManager extends SimpleJsonResourceReloadListener {
+
+
+    private static final Gson GSON = new Gson();
+
+    public FoodDefinitionManager() {
+        super(GSON, "definitions");
+    }
+    public static final List<FoodDefinition> list = new ArrayList();
+    public static final List<String> init_ItemIdList = new ArrayList<>();
+    public static final List<Item> init_ItemList = new ArrayList<>();
+    private static final Map<String, Map<String, String>> soundMappings = new HashMap<>();
+    private static final Map<String, Set<String>> invisibleMappings = new HashMap<>();
+
+    @Override
+    protected void apply(Map<ResourceLocation, JsonElement> pObject, ResourceManager pResourceManager, ProfilerFiller pProfiler) {
+        list.clear();
+        soundMappings.clear();
+        invisibleMappings.clear();
+        init_ItemList.clear();
+        init_ItemIdList.clear();
+        for (Map.Entry<ResourceLocation, JsonElement> entry : pObject.entrySet()) {
+            FoodDefinition definition = GSON.fromJson(entry.getValue(), FoodDefinition.class);
+            list.add(definition);
+            ResourceLocation itemId = ResourceLocation.tryParse(definition.getItem());
+            Item item = itemId == null ? null : BuiltInRegistries.ITEM.get(itemId);
+            if (item != null && item != net.minecraft.world.item.Items.AIR) {
+                init_ItemIdList.add(itemId.toString());
+                init_ItemList.add(item);
+            }
+            if (definition.getSounds() != null) {
+                soundMappings.computeIfAbsent(definition.getItem(), ignored -> new HashMap<>()).putAll(definition.getSounds());
+            }
+            if (definition.getInvisible() != null && !definition.getInvisible().isEmpty()) {
+                Set<String> invisibleBones = invisibleMappings.computeIfAbsent(definition.getItem(), ignored -> new HashSet<>());
+                for (String boneName : definition.getInvisible()) {
+                    if (boneName != null && !boneName.isBlank()) {
+                        invisibleBones.add(boneName.toLowerCase());
+                    }
+                }
+            }
+        }
+    }
+
+    public static ResourceLocation getSound(String itemId, String keyframeName) {
+        Map<String, String> itemSounds = soundMappings.get(itemId);
+        if (itemSounds == null) {
+            return null;
+        }
+        String soundId = itemSounds.get(keyframeName);
+        return soundId == null || soundId.isBlank() ? null : ResourceLocation.tryParse(soundId);
+    }
+
+    public static boolean isInvisible(String itemId, String boneName) {
+        Set<String> invisibleBones = invisibleMappings.get(itemId);
+        return invisibleBones != null && boneName != null && invisibleBones.contains(boneName.toLowerCase());
+    }
+}

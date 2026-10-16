@@ -2,6 +2,7 @@
 	"item": "kaleidoscope_cookery:spicy_rabbit_head",
 	"invisible": [],
 	"sounds": {
-		"eating": "food:eat"
+		"spicy_rabbit_head": "food:spicy_rabbit_head",
+		"spicy_rabbit_head_switchin": "food:spicy_rabbit_head_switchin"
 	}
 }

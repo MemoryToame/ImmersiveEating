@@ -2,7 +2,7 @@ package io.github.memorytoame.immersiveeating.neoforge;
 
 import io.github.memorytoame.immersiveeating.neoforge.init.ModItems;
 import io.github.memorytoame.immersiveeating.neoforge.network.Network;
-import io.github.memorytoame.immersiveeating.neoforge.config.Config;
+import io.github.memorytoame.immersiveeating.neoforge.common.config.Config;
 import io.github.memorytoame.immersiveeating.neoforge.unique.UniqueItem;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;

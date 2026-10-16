@@ -1,7 +1,7 @@
 package io.github.memorytoame.immersiveeating.neoforge.init;
 
 import io.github.memorytoame.immersiveeating.neoforge.Food;
-import io.github.memorytoame.immersiveeating.neoforge.additions.Empty;
+import io.github.memorytoame.immersiveeating.neoforge.common.content.item.Empty;
 import net.minecraft.world.item.Item;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredRegister;

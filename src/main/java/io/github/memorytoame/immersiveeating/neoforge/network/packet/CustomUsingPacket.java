@@ -20,7 +20,7 @@ public record CustomUsingPacket(InteractionHand hand, Item customItem, int count
     public static final StreamCodec<RegistryFriendlyByteBuf, CustomUsingPacket> STREAM_CODEC = StreamCodec.of((buffer, payload) -> {
         buffer.writeEnum(payload.hand);
         ResourceLocation itemId = BuiltInRegistries.ITEM.getKey(payload.customItem);
-        buffer.writeResourceLocation(itemId == null ? BuiltInRegistries.ITEM.getKey(net.minecraft.world.item.Items.AIR) : itemId);
+        buffer.writeResourceLocation(itemId);
         buffer.writeVarInt(payload.count);
         },
             buffer -> new CustomUsingPacket(buffer.readEnum(InteractionHand.class),

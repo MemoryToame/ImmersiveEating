@@ -1,0 +1,7 @@
+{
+  "item": "food:empty",
+  "invisible": [],
+  "sounds": {
+    "kiss": "food:kiss"
+  }
+}

@@ -1,0 +1,9 @@
+{
+	"item": "kaleidoscope_cookery:candied_potato",
+	"invisible": ["threek","rightArm"],
+	"sounds": {
+		"candied_potato": "food:candied_potato",
+		"candied_potato_switchin": "food:candied_potato_switchin"
+
+	}
+}

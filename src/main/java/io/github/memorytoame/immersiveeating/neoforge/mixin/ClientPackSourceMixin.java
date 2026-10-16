@@ -24,7 +24,7 @@ public class ClientPackSourceMixin {
     private void food$addDynamicPack(BiConsumer<String, Function<String, Pack>> consumer, CallbackInfo ci) {
         PackLocationInfo locationInfo = new PackLocationInfo(
                 "food_dynamic",
-                Component.literal("ImmersiveEating Resources"),
+                Component.literal("Kaleidoscope ImmersiveEating Resources"),
                 PackSource.BUILT_IN,
                 Optional.empty()
         );

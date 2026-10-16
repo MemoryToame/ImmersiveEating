@@ -3,7 +3,7 @@ package io.github.memorytoame.immersiveeating.neoforge.additions.sound;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import io.github.memorytoame.immersiveeating.neoforge.additions.definiton.FoodDefinition;
+import io.github.memorytoame.immersiveeating.neoforge.common.content.definition.FoodDefinition;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
@@ -31,7 +31,7 @@ public class SoundJson {
                 }
 
                 ResourceLocation soundId = ResourceLocation.parse(sound_namespace);
-                String name = soundId.getPath(); //如果是eat:eating则为eating
+                String name = soundId.getPath();
 
                 addSound(root, name, soundId.toString());
             }
@@ -42,9 +42,7 @@ public class SoundJson {
 
     public static JsonObject generate(ResourceManager resourceManager) {
         List<FoodDefinition> definitions = new ArrayList<>();
-        Map<ResourceLocation, Resource> resources = resourceManager.listResources("definitions",
-                location -> location.getNamespace().equals("food") && location.getPath().endsWith(".json"));
-
+        Map<ResourceLocation, Resource> resources = resourceManager.listResources("definitions", location -> location.getNamespace().equals("food") && location.getPath().endsWith(".json"));
         for (Resource resource : resources.values()) {
             try (Reader reader = resource.openAsReader()) {
                 FoodDefinition definition = GSON.fromJson(reader, FoodDefinition.class);
@@ -62,7 +60,6 @@ public class SoundJson {
         if (root.has(name)) {
             return;
         }
-
         JsonObject sound = new JsonObject();
         JsonArray sounds = new JsonArray();
         sounds.add(soundId);

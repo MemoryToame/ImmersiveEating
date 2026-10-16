@@ -1,0 +1,8 @@
+{
+	"item": "kaleidoscope_cookery:buddha_jumps_over_the_wall",
+	"invisible": ["kuaizi","leftArm"],
+	"sounds": {
+		"buddha_jumps_over_the_wall": "food:buddha_jumps_over_the_wall",
+		"buddha_jumps_over_the_wall_switchin":"food:buddha_jumps_over_the_wall_switchin"
+	}
+}

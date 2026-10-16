@@ -1,0 +1,8 @@
+{
+	"item": "kaleidoscope_cookery:spicy_blood_stew",
+	"invisible": ["kuaizi"],
+	"sounds": {
+		"spicy_blood_stew": "food:spicy_blood_stew",
+		"spicy_blood_stew_switchin" : "food:spicy_blood_stew_switchin"
+	}
+}

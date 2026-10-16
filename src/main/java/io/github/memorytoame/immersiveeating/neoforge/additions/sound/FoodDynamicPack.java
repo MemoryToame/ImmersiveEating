@@ -12,6 +12,7 @@ import net.minecraft.server.packs.metadata.MetadataSectionSerializer;
 import net.minecraft.server.packs.metadata.pack.PackMetadataSection;
 import net.minecraft.server.packs.repository.PackSource;
 import net.minecraft.server.packs.resources.IoSupplier;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -35,12 +36,11 @@ public class FoodDynamicPack implements PackResources {
         }
         String content = createSoundsJson().toString();
 
-        return () -> new ByteArrayInputStream(content.getBytes(StandardCharsets.UTF_8)
-        );
+        return () -> new ByteArrayInputStream(content.getBytes(StandardCharsets.UTF_8));
     }
 
     @Override
-    public Set<String> getNamespaces(PackType type) {
+    public @NotNull Set<String> getNamespaces(@NotNull PackType type) {
         if (type == PackType.CLIENT_RESOURCES) {
             return Set.of(Food.MODID);
         }
@@ -48,7 +48,7 @@ public class FoodDynamicPack implements PackResources {
     }
 
     @Override
-    public void listResources(PackType type, String namespace, String prefix, ResourceOutput output) {
+    public void listResources(PackType type, @NotNull String namespace, String prefix, ResourceOutput output) {
         if (type != PackType.CLIENT_RESOURCES) {
             return;
         }
@@ -58,17 +58,22 @@ public class FoodDynamicPack implements PackResources {
         if ("sounds.json".startsWith(prefix)) {
             output.accept(ResourceLocation.fromNamespaceAndPath(Food.MODID, "sounds.json"),
                     () -> {
-                        JsonObject json = createSoundsJson();
-                        return new ByteArrayInputStream(json.toString().getBytes(StandardCharsets.UTF_8)
-                        );
-                    }
-            );
+                JsonObject json = createSoundsJson();
+                return new ByteArrayInputStream(json.toString().getBytes(StandardCharsets.UTF_8)
+                );
+            });
         }
     }
 
     @Override
     public IoSupplier<InputStream> getRootResource(String... path) {
-        return null;
+        if (path.length != 1 || !path[0].equals("pack.png")) {
+            return null;
+        }
+        return () -> {
+            InputStream icon = FoodDynamicPack.class.getResourceAsStream("/pack.png");
+            return icon;
+        };
     }
 
     @Override
@@ -78,7 +83,7 @@ public class FoodDynamicPack implements PackResources {
         }
         return null;
     }
-    private static final PackLocationInfo LOCATION = new PackLocationInfo("food_dynamic", Component.literal("ImmersiveEating Resources"), PackSource.BUILT_IN, Optional.empty());
+    private static final PackLocationInfo LOCATION = new PackLocationInfo("food_dynamic", Component.literal("Kaleidoscope ImmersiveEating Resources"), PackSource.BUILT_IN, Optional.empty());
 
     @Override
     public PackLocationInfo location() {
