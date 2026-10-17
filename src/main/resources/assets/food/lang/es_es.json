@@ -1,4 +1,6 @@
 {
+  "modmenu.nameTranslation.food": "Kaleidoscope Immersive Eating",
+  "modmenu.descriptionTranslation.food": "Trae nuevas animaciones de comida y una experiencia inmersiva a Kaleidoscope Cookery.",
   "tab.food": "Comida",
   "key.food.animation": "Reproducir animaciones",
   "key.categories.food": "Alimentación inmersiva"

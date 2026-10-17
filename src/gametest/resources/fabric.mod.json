@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "id": "food_test",
+  "version": "1.0.0",
+  "name": "Kaleidoscope Immersive Eating GameTests",
+  "environment": "*",
+  "entrypoints": {
+    "fabric-gametest": [
+      "io.github.memorytoame.immersiveeating.fabric.ImmersiveEatingGameTests"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=0.19.3",
+    "minecraft": "~1.21.1",
+    "fabric-api": "*",
+    "food": "*"
+  }
+}

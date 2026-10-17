@@ -31,6 +31,7 @@ public final class InputEvents {
    }
 
    public static void register() {
+      ClientTickEvents.START_CLIENT_TICK.register(InputEvents::onClientTickStart);
       ClientTickEvents.END_CLIENT_TICK.register(InputEvents::onClientTick);
       UseItemCallback.EVENT.register((player, level, hand) -> {
          if (!level.isClientSide() || player != Minecraft.getInstance().player || hand != InteractionHand.MAIN_HAND) {
@@ -50,6 +51,16 @@ public final class InputEvents {
 
          return InteractionResultHolder.pass(stack);
       });
+   }
+
+   private static void onClientTickStart(Minecraft mc) {
+      if (mc.player == null || isAnimationGui(mc.screen) || !AnimationUtils.isAnimationLocked()) {
+         return;
+      }
+
+      if (mc.options.keyAttack.consumeClick()) {
+         AnimationUtils.stopAnimationControl();
+      }
    }
 
    private static void onClientTick(Minecraft mc) {
@@ -82,9 +93,6 @@ public final class InputEvents {
          AnimationUtils.stopAnimationControl();
       }
 
-      if (mc.options.keyAttack.consumeClick() && AnimationUtils.isAnimationLocked() && !isAnimationGui(mc.screen)) {
-         AnimationUtils.stopAnimationControl();
-      }
    }
 
    private static void startKeyboardAnimation(Minecraft mc) {

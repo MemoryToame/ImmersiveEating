@@ -1,6 +1,8 @@
 package io.github.memorytoame.immersiveeating.fabric.client;
 
 import io.github.memorytoame.immersiveeating.fabric.client.animation.CameraShake;
+import io.github.memorytoame.immersiveeating.fabric.client.events.ClientReloadEvents;
+import io.github.memorytoame.immersiveeating.fabric.client.events.FirstPersonModEvents;
 import io.github.memorytoame.immersiveeating.fabric.client.network.ClientNetwork;
 import io.github.memorytoame.immersiveeating.fabric.common.content.definition.FoodDefinitionManager;
 import io.github.memorytoame.immersiveeating.fabric.common.content.item.Empty;
@@ -42,6 +44,8 @@ public final class ClientSetup {
          (hand, item) -> ClientNetwork.sendCustomUsing(hand, item, 1),
          ClientNetwork::sendFinishUse
       );
+      ClientReloadEvents.register();
+      FirstPersonModEvents.register();
       ResourceManagerHelper.get(PackType.CLIENT_RESOURCES).registerReloadListener(new FoodDefinitionManager());
       ClientTickEvents.END_CLIENT_TICK.register(CameraShake::tickClient);
    }

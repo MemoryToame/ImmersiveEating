@@ -9,10 +9,7 @@ import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.BlockGetter;
-import org.joml.Quaternionf;
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -20,11 +17,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Environment(EnvType.CLIENT)
 @Mixin(Camera.class)
 public abstract class CameraMixin {
-   @Final
-   @Shadow
-   private Quaternionf rotation;
-
-   @Inject(method = "setup", at = @At("TAIL"))
+   @Inject(
+      method = "setup",
+      at = @At(
+         value = "INVOKE",
+         target = "Lnet/minecraft/client/Camera;setPosition(DDD)V",
+         shift = At.Shift.BEFORE
+      )
+   )
    private void food$applyAnimationRotation(
       BlockGetter level,
       Entity entity,
@@ -39,14 +39,14 @@ public abstract class CameraMixin {
          return;
       }
 
-      if (Empty.isEatAnimationPlaying()) {
-         CameraRotationComposer.applyCapturedBlockbenchRotation(this.rotation);
-      } else {
+      boolean animationPlaying = Empty.isEatAnimationPlaying();
+      if (!animationPlaying) {
          CameraRotationComposer.clearBlockbenchRotation();
       }
 
-      CameraRotationComposer.applyForgeOffset(
-         this.rotation,
+      CameraRotationComposer.applyCameraEffects(
+         (Camera)(Object)this,
+         animationPlaying,
          CameraShake.interpolatedPitch(partialTick),
          CameraShake.interpolatedYaw(partialTick),
          CameraShake.interpolatedRoll(partialTick)
