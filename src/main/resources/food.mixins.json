@@ -13,6 +13,7 @@
 		"ItemInHandRendererMixin",
 		"ItemRendererMixin",
 		"KeyboardHandlerMixin",
+		"MinecraftMixin",
 		"PlayerRendererMixin",
 		"PunchyConfigMixin"
 	],
