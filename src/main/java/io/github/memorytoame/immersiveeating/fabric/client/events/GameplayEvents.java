@@ -4,9 +4,12 @@ import io.github.memorytoame.immersiveeating.fabric.common.content.definition.Fo
 import io.github.memorytoame.immersiveeating.fabric.common.content.item.Empty;
 import io.github.memorytoame.immersiveeating.fabric.client.network.ClientNetwork;
 import io.github.memorytoame.immersiveeating.fabric.utils.AnimationUtils;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.item.ItemStack;
 
+@Environment(EnvType.CLIENT)
 public final class GameplayEvents {
    private GameplayEvents() {
    }

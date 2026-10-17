@@ -35,7 +35,18 @@ base {
 	archivesName = providers.gradleProperty("archives_base_name")
 }
 
+fabricApi {
+	configureTests {
+		createSourceSet = true
+		modId = "food_test"
+		enableClientGameTests = true
+	}
+}
+
 dependencies {
+	testImplementation(platform("org.junit:junit-bom:5.11.4"))
+	testImplementation("org.junit.jupiter:junit-jupiter")
+	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 	// To change the versions see the gradle.properties file
 	minecraft("com.mojang:minecraft:${providers.gradleProperty("minecraft_version").get()}")
     mappings(loom.officialMojangMappings())
@@ -52,6 +63,10 @@ dependencies {
 	modImplementation("net.fabricmc.fabric-api:fabric-api:${providers.gradleProperty("fabric_api_version").get()}")
 	// Punchy
 	compileOnly("maven.modrinth:8aoMKplv:kburaezy")
+}
+
+tasks.test {
+	useJUnitPlatform()
 }
 
 tasks.processResources {
