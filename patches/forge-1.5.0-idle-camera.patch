@@ -1,0 +1,10 @@
+--- a/src/main/java/org/toame/food/client/CameraRotationComposer.java
++++ b/src/main/java/org/toame/food/client/CameraRotationComposer.java
+@@ -65,1 +65,7 @@
+     private static void applyLocalCameraRotation(ViewportEvent.ComputeCameraAngles event, float xDegrees, float yDegrees, float zDegrees) {
++        // Preserve incoming angles when there is no effective local camera rotation.
++        if (Math.abs(xDegrees) < 1.0E-4F
++                && Math.abs(yDegrees) < 1.0E-4F
++                && Math.abs(zDegrees) < 1.0E-4F) {
++            return;
++        }
