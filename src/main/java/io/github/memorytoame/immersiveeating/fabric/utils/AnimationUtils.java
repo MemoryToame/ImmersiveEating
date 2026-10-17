@@ -25,6 +25,7 @@ public class AnimationUtils {
    public static boolean wasEatAnimationPlaying;
    private static boolean animationRequestPending;
    private static int animationRequestTicks;
+   private static ItemStack switchInStack = ItemStack.EMPTY;
 
    public static boolean isAnimationLocked() {
       return temp != null && lockedHotbarSlot >= 0;
@@ -34,11 +35,28 @@ public class AnimationUtils {
       return animationRequestPending;
    }
 
+   public static boolean isInputLocked() {
+      return isAnimationLocked() || !switchInStack.isEmpty();
+   }
+
+   public static void beginSwitchInAnimation(ItemStack stack) {
+      if (stack != null && !stack.isEmpty()) {
+         switchInStack = stack.copy();
+      }
+   }
+
+   public static void updateSwitchInAnimation() {
+      if (!switchInStack.isEmpty() && !Empty.isClientAnimationPlaying(switchInStack, "switchin")) {
+         switchInStack = ItemStack.EMPTY;
+      }
+   }
+
    public static void beginAnimationSession(Minecraft mc) {
       animationSessionId = mc.player == null ? UUID.randomUUID() : ClientAnimationManager.beginSession(mc.player);
       animationControllerId = resolveControllerId(mc);
       animationRequestPending = true;
       animationRequestTicks = 0;
+      switchInStack = ItemStack.EMPTY;
       activateAnimationLock(mc);
    }
 
@@ -86,6 +104,9 @@ public class AnimationUtils {
       }
 
       Empty.stopEatAnimation(animationControllerId);
+      if (!switchInStack.isEmpty()) {
+         Empty.stopClientAnimation(switchInStack, "switchin");
+      }
       ClientSoundHandler.stopLocalSounds();
       if (Minecraft.getInstance().player != null) {
          ClientAnimationManager.clearSession(Minecraft.getInstance().player);
@@ -97,6 +118,7 @@ public class AnimationUtils {
       animationRequestPending = false;
       animationRequestTicks = 0;
       animationControllerId = Long.MAX_VALUE;
+      switchInStack = ItemStack.EMPTY;
       CameraRotationComposer.clearBlockbenchRotation();
    }
 
@@ -113,6 +135,7 @@ public class AnimationUtils {
       animationRequestTicks = 0;
       animationSessionId = null;
       animationControllerId = Long.MAX_VALUE;
+      switchInStack = ItemStack.EMPTY;
       CameraRotationComposer.clearBlockbenchRotation();
    }
 
@@ -167,6 +190,7 @@ public class AnimationUtils {
    public static void playCustomUseReequipAnimation(Minecraft mc, ItemStack stack) {
       if (stack != null && !stack.isEmpty()) {
          if (AnimationResourceChecker.hasAnimation(stack, "switchin")) {
+            beginSwitchInAnimation(stack);
             Empty.triggerClientAnimation(stack, "switchin");
          }
 

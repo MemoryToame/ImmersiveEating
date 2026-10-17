@@ -6,6 +6,7 @@ import com.google.gson.JsonParser;
 import com.mojang.blaze3d.vertex.PoseStack;
 import io.github.memorytoame.immersiveeating.fabric.common.content.definition.FoodDefinitionManager;
 import io.github.memorytoame.immersiveeating.fabric.common.content.item.Empty;
+import io.github.memorytoame.immersiveeating.fabric.utils.AnimationUtils;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.nio.charset.StandardCharsets;
@@ -158,6 +159,9 @@ public abstract class ItemInHandRendererMixin {
    @Unique
    private static boolean food$trigger(ItemStack stack, String controllerName) {
       if (!stack.isEmpty() && FoodDefinitionManager.init_ItemList.contains(stack.getItem()) && food$hasAnimation(stack, controllerName)) {
+         if ("switchin".equals(controllerName)) {
+            AnimationUtils.beginSwitchInAnimation(stack);
+         }
          Empty.triggerClientAnimation(stack, controllerName);
          return true;
       } else {
