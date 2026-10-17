@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class GuiMixin {
    @Inject(method = "renderHotbarAndDecorations", at = @At("HEAD"), cancellable = true)
    private void food$hideHotbar(GuiGraphics guiGraphics, DeltaTracker deltaTracker, CallbackInfo ci) {
-      if (Config.ENABLE_RIGHT_BUTTON.get() && AnimationUtils.isAnimationLocked()) {
+      if (!Config.HIDE_GUI_WHEN_EATING.get() && AnimationUtils.isAnimationLocked()) {
          ci.cancel();
       }
    }
