@@ -7,13 +7,11 @@ import net.neoforged.neoforge.common.ModConfigSpec;
 public final class Config {
    public static final ModConfigSpec COMMON_SPEC;
    public static final ModConfigSpec.BooleanValue ENABLE_RIGHT_BUTTON;
-   public static final ModConfigSpec.BooleanValue HIDE_GUI_WHEN_EATING;
 
    static {
       ModConfigSpec.Builder builder = new ModConfigSpec.Builder();
       builder.push("immersive_eating");
       ENABLE_RIGHT_BUTTON = builder.comment("Enable right-click animation").define("enableRightClickAnimation", true);
-      HIDE_GUI_WHEN_EATING = builder.comment("Hide Your hotbar & status bar when eating").define("hideGUIWhenEating", true);
       builder.pop();
       COMMON_SPEC = builder.build();
    }

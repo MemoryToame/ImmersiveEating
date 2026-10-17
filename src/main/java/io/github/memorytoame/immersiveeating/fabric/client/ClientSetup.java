@@ -1,6 +1,7 @@
 package io.github.memorytoame.immersiveeating.fabric.client;
 
 import io.github.memorytoame.immersiveeating.fabric.client.animation.CameraShake;
+import io.github.memorytoame.immersiveeating.fabric.client.config.ClientConfig;
 import io.github.memorytoame.immersiveeating.fabric.client.events.ClientReloadEvents;
 import io.github.memorytoame.immersiveeating.fabric.client.events.FirstPersonModEvents;
 import io.github.memorytoame.immersiveeating.fabric.client.network.ClientNetwork;
@@ -23,6 +24,7 @@ public final class ClientSetup {
 
    public static void register() {
       ClientNetwork.register();
+      ClientConfig.register();
       Empty.setClientHooks(
          stack -> AnimationUtils.playCustomUseReequipAnimation(Minecraft.getInstance(), stack),
          CameraShake::trigger,
