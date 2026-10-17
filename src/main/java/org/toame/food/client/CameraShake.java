@@ -92,7 +92,6 @@ public final class CameraShake {
     }
 
     @SubscribeEvent
-
     public static void onComputeCameraAngles(ViewportEvent.ComputeCameraAngles event) {
         Minecraft mc = Minecraft.getInstance();
 

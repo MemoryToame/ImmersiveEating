@@ -10,6 +10,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.network.NetworkEvent;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.toame.food.compat.SpiceOfLifeValheim;
+import org.toame.food.compat.SpiceofLifeOnion;
 import org.toame.food.network.ServerAnimationManager;
 import org.toame.food.unique.UniqueItem;
 import java.util.UUID;
@@ -33,10 +35,12 @@ public record FinishUsePacket(UUID sessionId, InteractionHand hand) {
                 }
                 ResourceLocation id = ForgeRegistries.ITEMS.getKey(stack.getItem());
                 if (stack.isEmpty() || !stack.isEdible()) {
-                    if (!new ResourceLocation("kaleidoscope_cookery", "sakura_fubuki").equals(id)
-                            && !new ResourceLocation("kaleidoscope_cookery", "flower_tea").equals(id)) return;
+                    if (!new ResourceLocation("kaleidoscope_cookery", "sakura_fubuki").equals(id) && !new ResourceLocation("kaleidoscope_cookery", "flower_tea").equals(id)) return;
                 }
-                player.setItemInHand(packet.hand, stack.finishUsingItem(player.level(), player));
+                if (!SpiceOfLifeValheim.enable(player,stack)){
+                    SpiceofLifeOnion.enable(player,stack);
+                    player.setItemInHand(packet.hand, stack.finishUsingItem(player.level(), player));
+                }
             } finally {
                 ServerAnimationManager.clear(player);
             }

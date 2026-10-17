@@ -190,6 +190,8 @@ dependencies {
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
     implementation fg.deobf("software.bernie.geckolib:geckolib-forge-${minecraft_version}:${geckolib_version}")
     implementation fg.deobf("maven.modrinth:kaleidoscope-cookery:1.4.1-forge+mc1.20.1")
+    implementation fg.deobf("curse.maven:spice-of-life-onion-878047:5816336")
+    implementation fg.deobf("curse.maven:creativecore-257814:8947229")
 //    implementation fg.deobf("maven.modrinth:VPPMiyrF:TBHht5Nt")
 //    implementation fg.deobf("maven.modrinth:fYYSAh4R:zxrGLIlw")
     implementation("com.eliotlash.mclib:mclib:20")

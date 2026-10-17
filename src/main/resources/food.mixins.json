@@ -5,6 +5,7 @@
   "compatibilityLevel": "JAVA_17",
   "refmap": "food.refmap.json",
   "mixins": [
+    "Accessor.ServerPlayer"
   ],
   "client": [
     "ClientPackSourceMixin",
