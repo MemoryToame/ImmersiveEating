@@ -3,6 +3,7 @@ package io.github.memorytoame.immersiveeating.neoforge.client;
 import io.github.memorytoame.immersiveeating.neoforge.Food;
 import io.github.memorytoame.immersiveeating.neoforge.common.content.item.Empty;
 import io.github.memorytoame.immersiveeating.neoforge.common.content.definition.FoodDefinitionManager;
+import io.github.memorytoame.immersiveeating.neoforge.compat.RealCamera;
 import io.github.memorytoame.immersiveeating.neoforge.utils.AnimationUtils;
 import net.minecraft.client.Minecraft;
 import net.neoforged.api.distmarker.Dist;
@@ -10,6 +11,8 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.RegisterClientReloadListenersEvent;
+
+import java.lang.reflect.InvocationTargetException;
 
 @EventBusSubscriber(modid = Food.MODID, value = Dist.CLIENT)
 public class ClientSetup {
@@ -34,6 +37,11 @@ public class ClientSetup {
                 io.github.memorytoame.immersiveeating.neoforge.client.ClientSoundHandler::playLocal,
                 io.github.memorytoame.immersiveeating.neoforge.client.ClientSoundHandler::stopLocalSounds
         );
+        try {
+            RealCamera.disableRealCamera();
+        } catch (NoSuchFieldException | InvocationTargetException | IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
     }
     @SubscribeEvent
     public static void registerClientReloadListeners(RegisterClientReloadListenersEvent event) {

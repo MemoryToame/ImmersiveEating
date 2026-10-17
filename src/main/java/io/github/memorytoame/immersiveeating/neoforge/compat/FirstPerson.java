@@ -1,4 +1,4 @@
-package io.github.memorytoame.immersiveeating.neoforge.client.events;
+package io.github.memorytoame.immersiveeating.neoforge.compat;
 
 import com.mojang.logging.LogUtils;
 import io.github.memorytoame.immersiveeating.neoforge.Food;
@@ -19,7 +19,7 @@ import org.slf4j.Logger;
 import java.lang.reflect.Method;
 
 @EventBusSubscriber(modid = Food.MODID, value = Dist.CLIENT)
-public final class FirstPersonModEvents {
+public final class FirstPerson {
 
     private static final float VANILLA_PITCH_MAX = 60.0F;
     private static final Logger LOGGER = LogUtils.getLogger();
@@ -30,7 +30,7 @@ public final class FirstPersonModEvents {
     private static Method isEnabledMethod;
     private static Method setEnabledMethod;
 
-    private FirstPersonModEvents() {
+    private FirstPerson() {
     }
 
     @SubscribeEvent
@@ -74,7 +74,7 @@ public final class FirstPersonModEvents {
             return false;
         }
         try {
-            Class<?> api = Class.forName("dev.tr7zw.firstperson.api.FirstPersonAPI", false, FirstPersonModEvents.class.getClassLoader());
+            Class<?> api = Class.forName("dev.tr7zw.firstperson.api.FirstPersonAPI", false, FirstPerson.class.getClassLoader());
             isEnabledMethod = api.getMethod("isEnabled");
             setEnabledMethod = api.getMethod("setEnabled", boolean.class);
             return true;
