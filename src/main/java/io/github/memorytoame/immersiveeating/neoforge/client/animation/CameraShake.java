@@ -103,7 +103,11 @@ public final class CameraShake {
         } else {
             CameraRotationComposer.clearBlockbenchRotation();
         }
-        CameraRotationComposer.applyForgeOffset(event, interpPitch, interpYaw, interpRoll);
+        // Leave the incoming camera angles untouched when the shake has settled.
+        // In particular, an idle offset must not recompose rotation at +/-90 degrees.
+        if (Math.abs(interpYaw) >= 1.0E-4F || Math.abs(interpPitch) >= 1.0E-4F || Math.abs(interpRoll) >= 1.0E-4F) {
+            CameraRotationComposer.applyForgeOffset(event, interpPitch, interpYaw, interpRoll);
+        }
     }
 
     public static void reset() {

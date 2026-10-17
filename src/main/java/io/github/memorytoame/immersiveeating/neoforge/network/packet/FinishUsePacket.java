@@ -1,6 +1,8 @@
 package io.github.memorytoame.immersiveeating.neoforge.network.packet;
 
 import io.github.memorytoame.immersiveeating.neoforge.Food;
+import io.github.memorytoame.immersiveeating.neoforge.compat.SpiceOfLifeValheim;
+import io.github.memorytoame.immersiveeating.neoforge.compat.SpiceofLifeOnion;
 import io.github.memorytoame.immersiveeating.neoforge.server.ServerAnimationManager;
 import io.github.memorytoame.immersiveeating.neoforge.unique.UniqueItem;
 import net.minecraft.core.component.DataComponents;
@@ -53,7 +55,10 @@ public record FinishUsePacket(InteractionHand hand, UUID sessionId) implements C
             if (stack.isEmpty()) {
                 return;
             }
-            sp.setItemInHand(payload.hand, stack.finishUsingItem(sp.level(), sp));
+            if (!SpiceOfLifeValheim.enable(sp,stack)){
+                SpiceofLifeOnion.enable(sp,stack);
+                sp.setItemInHand(payload.hand, stack.finishUsingItem(sp.level(), sp));
+            }
             ServerAnimationManager.clear(sp);
         });
     }
