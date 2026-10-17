@@ -7,17 +7,14 @@ import org.toame.food.additions.definiton.FoodDefinitionManager;
 import static com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookery.LOGGER;
 
 public class Helper {
-    public static Class findApi(String modName,String className) {
-//        if (!ModList.get().isLoaded(modName)) {
-//            return null;
-//        }
+    public static Class findApi(String className) {
         try {
 
             Class<?> api = Class.forName(className);
             return api;
 
         } catch (ReflectiveOperationException | RuntimeException exception) {
-            LOGGER.warn(modName+" doesn't exist.", exception);
+            LOGGER.warn(className +" doesn't exist.");
             return null;
         }
     }

@@ -43,8 +43,7 @@ public final class VanillaArmRenderer {
         }
 
         HumanoidArm renderedArm = mirrorModel ? opposite(arm) : arm;
-        Matrix4f armPose = createPreviewCubeArmPose(poseStack, renderedArm, armCube,
-                ArmModelOffset.forPlayer(Minecraft.getInstance().player).matrixFor(renderedArm));
+        Matrix4f armPose = createPreviewCubeArmPose(poseStack, renderedArm, armCube, ArmModelOffset.forPlayer(Minecraft.getInstance().player).matrixFor(renderedArm));
         CapturedArm capturedArm = new CapturedArm(renderedArm, armPose, new Matrix3f(armPose).normal());
         poseStack.popPose();
         return capturedArm;

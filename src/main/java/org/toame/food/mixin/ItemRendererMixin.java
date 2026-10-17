@@ -42,9 +42,6 @@ public class ItemRendererMixin {
             return;
         }
         ResourceLocation id = BuiltInRegistries.ITEM.getKey(stack.getItem());
-        if (id == null) {
-            return;
-        }
         if (FoodDefinitionManager.init_ItemIdList.contains(id.toString())){
             poseStack.pushPose();
             //xyz加 分别对应 右 上 后

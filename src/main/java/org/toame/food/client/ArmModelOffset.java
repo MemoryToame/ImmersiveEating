@@ -11,7 +11,7 @@ import org.joml.Matrix4f;
 import java.util.Set;
 
 public enum ArmModelOffset {
-    WIDE(new Matrix4f(), new Matrix4f()),
+    WIDE(new Matrix4f(), new Matrix4f().translation(-1/16F,0.0F,0.0F)),
     SLIM(new Matrix4f(), new Matrix4f().translation(-1/16F, 0.0F, 0.0F));
 
     private final Matrix4f leftHand;

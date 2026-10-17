@@ -10,7 +10,7 @@ import java.util.function.Predicate;
 public class RealCamera {
 
     public static void disableRealCamera() throws NoSuchFieldException, InvocationTargetException, IllegalAccessException {
-        Class realCamera = Helper.findApi("realCamera", "com.xtracr.realcamera.compat.DisableHelper");
+        Class realCamera = Helper.findApi( "com.xtracr.realcamera.compat.DisableHelper");
         if (realCamera !=null){
             Field mainFeatureField = realCamera.getField("MAIN_FEATURE");
             Object mainFeature = mainFeatureField.get(null);

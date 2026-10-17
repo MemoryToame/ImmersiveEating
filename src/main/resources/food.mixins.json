@@ -9,11 +9,11 @@
   "client": [
     "ClientPackSourceMixin",
     "ItemInHandRendererMixin",
-    "Accessor.ItemInHandRendererAccessor",
-    "KeyboardHandlerMixin",
     "ItemRendererMixin",
+    "KeyboardHandlerMixin",
+    "PlayerRendererMixin",
     "PunchyConfigMixin",
-    "PlayerRendererMixin"
+    "Accessor.ItemInHandRendererAccessor"
   ],
   "injectors": {
     "defaultRequire": 1

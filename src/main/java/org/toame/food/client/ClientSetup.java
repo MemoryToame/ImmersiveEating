@@ -17,7 +17,6 @@ import java.lang.reflect.InvocationTargetException;
 @Mod.EventBusSubscriber(modid = Food.MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ClientSetup {
     @SubscribeEvent
-
     public static void setupClient(FMLClientSetupEvent event) {
         Empty.setClientHooks(
                 stack -> AnimationUtils.playCustomUseReequipAnimation(Minecraft.getInstance(), stack),
