@@ -15,6 +15,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.ChatScreen;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
 
 @Environment(EnvType.CLIENT)
@@ -68,6 +69,7 @@ public final class InputEvents {
 
       if (mc.options.keyAttack.consumeClick()) {
          AnimationUtils.stopAnimationControl();
+         mc.player.swing(InteractionHand.MAIN_HAND);
       }
    }
 
