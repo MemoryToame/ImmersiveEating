@@ -17,7 +17,7 @@ public abstract class MinecraftMixin {
       at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Minecraft;startUseItem()V")
    )
    private void food$handleRightClick(Minecraft mc, Operation<Void> original) {
-      if (!InputEvents.handleRightClick(mc)) {
+      if (!io.github.memorytoame.immersiveeating.fabric.utils.AnimationUtils.isInputLocked() && !InputEvents.handleRightClick(mc)) {
          original.call(mc);
       }
    }

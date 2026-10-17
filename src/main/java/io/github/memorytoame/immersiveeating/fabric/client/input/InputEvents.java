@@ -36,6 +36,10 @@ public final class InputEvents {
 
 
    public static boolean handleRightClick(Minecraft mc) {
+      if (AnimationUtils.isInputLocked()) {
+         return true;
+      }
+
       if (mc == null || !mc.options.keyUse.isDown()) {
          rightClickHandled = false;
       }
@@ -59,11 +63,12 @@ public final class InputEvents {
    }
 
    private static void onClientTickStart(Minecraft mc) {
+      AnimationUtils.updateSwitchInAnimation();
       if (mc.player == null || !mc.options.keyUse.isDown()) {
          rightClickHandled = false;
       }
 
-      if (mc.player == null || isAnimationGui(mc.screen) || !AnimationUtils.isAnimationLocked()) {
+      if (mc.player == null || isAnimationGui(mc.screen) || !AnimationUtils.isInputLocked()) {
          return;
       }
 
@@ -81,6 +86,10 @@ public final class InputEvents {
 
       if (ModKeyMappings.ANIMATION.consumeClick()) {
          startKeyboardAnimation(mc);
+      }
+
+      if (AnimationUtils.isInputLocked()) {
+         return;
       }
 
       if (Food.DEBUG) {
