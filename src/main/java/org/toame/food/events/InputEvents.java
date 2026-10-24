@@ -34,7 +34,6 @@ public class InputEvents {
 
 
     @SubscribeEvent
-
     public static void onKey(InputEvent.Key event) {
         if (Minecraft.getInstance().player == null) {
             return;
@@ -95,7 +94,6 @@ public class InputEvents {
     }
 
     @SubscribeEvent
-
     public static void onMouseButton(InputEvent.MouseButton.Pre event) {
         Minecraft mc = Minecraft.getInstance();
         if (mc.player == null) {

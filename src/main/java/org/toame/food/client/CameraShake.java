@@ -105,7 +105,7 @@ public final class CameraShake {
         float interpPitch = Mth.lerp(partialTick, prevPitch, pitch);
         float interpRoll = Mth.lerp(partialTick, prevRoll, roll);
 
-        if (Empty.isEatAnimationPlaying()) {
+        if (Empty.isAnimationPlaying()) {
             CameraRotationComposer.applyCapturedBlockbenchRotation(event);
         } else {
             CameraRotationComposer.clearBlockbenchRotation();
@@ -116,7 +116,7 @@ public final class CameraShake {
         || Math.abs(interpPitch) >= 1.0E-4F
         || Math.abs(interpRoll) >= 1.0E-4F) {
           CameraRotationComposer.applyForgeOffset(event, interpPitch, interpYaw, interpRoll);
-}
+        }
       
     }
     public static void reset() {

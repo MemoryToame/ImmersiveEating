@@ -73,6 +73,12 @@ public class Empty extends Item implements GeoItem, GeoAnimatable {
         return isClientAnimationPlaying(clientAnimationStackSupplier.get(), "eat");
     }
 
+    public static boolean isAnimationPlaying() {
+        return isClientAnimationPlaying(clientAnimationStackSupplier.get(), "eat")||
+                isClientAnimationPlaying(clientAnimationStackSupplier.get(), "switchin")||
+                isClientAnimationPlaying(clientAnimationStackSupplier.get(), "switchout");
+    }
+
     public static boolean isClientAnimationPlaying(ItemStack stack, String controllerName) {
         if (stack == null || stack.isEmpty()) {
             return false;

@@ -43,7 +43,6 @@ public class CustomRenderer extends GeoItemRenderer<Empty> {
     public static Map<String, CustomRenderer> rendererMap = new HashMap<>();
     private final List<VanillaArmRenderer.CapturedArm> capturedArms = new ArrayList<>();
     private final String itemId;
-    private boolean capturingCameraRotation;
     private boolean mirrorLeftHandModel;
     private long renderInstanceId = Long.MAX_VALUE;
 
@@ -53,7 +52,6 @@ public class CustomRenderer extends GeoItemRenderer<Empty> {
     }
 
     @Override
-
     public void renderRecursively(PoseStack poseStack, Empty animatable, GeoBone bone, RenderType renderType, MultiBufferSource bufferSource, VertexConsumer buffer, boolean isReRender, float partialTick, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
         poseStack.pushPose();
         RenderUtils.prepMatrixForBone(poseStack, bone);
@@ -68,7 +66,7 @@ public class CustomRenderer extends GeoItemRenderer<Empty> {
                 && isInvisibleBone(bone)
                 && shouldHideInvisibleBone(partialTick);
 
-        if (capturingCameraRotation && cameraBone) {
+        if (cameraBone) {
             CameraRotationComposer.captureBlockbenchRotationRadians(bone.getRotX(), bone.getRotY(), bone.getRotZ());
         }
 
@@ -108,14 +106,12 @@ public class CustomRenderer extends GeoItemRenderer<Empty> {
         boolean firstPerson = transformType == ItemDisplayContext.FIRST_PERSON_RIGHT_HAND || transformType == ItemDisplayContext.FIRST_PERSON_LEFT_HAND;
         mirrorLeftHandModel = transformType == ItemDisplayContext.FIRST_PERSON_LEFT_HAND;
         boolean mirroredRender = mirrorLeftHandModel;
-        capturingCameraRotation = firstPerson && AnimationUtils.isAnimationLocked();
         if (firstPerson) {
             CameraRotationComposer.clearBlockbenchRotation();
         }
         try {
             super.renderByItem(stack, transformType, poseStack, bufferSource, packedLight, packedOverlay);
         } finally {
-            capturingCameraRotation = false;
             mirrorLeftHandModel = false;
         }
         poseStack.popPose();
