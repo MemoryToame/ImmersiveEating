@@ -1,0 +1,8 @@
+{
+  "item": "kaleidoscope_cookery:chorus_fried_egg",
+  "invisible": [],
+  "sounds": {
+    "chorus_fried_egg_switchin": "food:chorus_fried_egg_switchin",
+    "chorus_fried_egg": "food:chorus_fried_egg"
+  }
+}

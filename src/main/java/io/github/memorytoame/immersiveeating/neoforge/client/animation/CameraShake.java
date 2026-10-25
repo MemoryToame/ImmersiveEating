@@ -98,7 +98,7 @@ public final class CameraShake {
         float interpPitch = Mth.lerp(partialTick, prevPitch, pitch);
         float interpRoll = Mth.lerp(partialTick, prevRoll, roll);
 
-        if (Empty.isEatAnimationPlaying()) {
+        if (Empty.isAnimationPlaying()) {
             CameraRotationComposer.applyCapturedBlockbenchRotation(event);
         } else {
             CameraRotationComposer.clearBlockbenchRotation();

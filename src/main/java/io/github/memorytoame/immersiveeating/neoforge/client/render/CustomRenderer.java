@@ -42,7 +42,6 @@ public class CustomRenderer extends GeoItemRenderer<Empty> {
     public static Map<String, CustomRenderer> rendererMap = new HashMap<>();
     private final List<VanillaArmRenderer.CapturedArm> capturedArms = new ArrayList<>();
     private final String itemId;
-    private boolean capturingCameraRotation;
     private boolean mirrorLeftHandModel;
 
     public CustomRenderer(String id) {
@@ -59,11 +58,9 @@ public class CustomRenderer extends GeoItemRenderer<Empty> {
         }
         boolean cameraBone = "camera".equals(bone.getName());
         boolean armBone = VanillaArmRenderer.isArmBone(bone);
-        boolean moveBoneBehindCamera = !hasInvisibleBoneParent(bone)
-                && isInvisibleBone(bone)
-                && shouldHideInvisibleBone(partialTick);
+        boolean moveBoneBehindCamera = !hasInvisibleBoneParent(bone) && isInvisibleBone(bone) && shouldHideInvisibleBone(partialTick);
 
-        if (capturingCameraRotation && cameraBone) {
+        if (cameraBone) {
             CameraRotationComposer.captureBlockbenchRotationRadians(bone.getRotX(), bone.getRotY(), bone.getRotZ());
         }
 
@@ -104,14 +101,13 @@ public class CustomRenderer extends GeoItemRenderer<Empty> {
                 || transformType == ItemDisplayContext.FIRST_PERSON_LEFT_HAND;
         mirrorLeftHandModel = transformType == ItemDisplayContext.FIRST_PERSON_LEFT_HAND;
         boolean mirroredRender = mirrorLeftHandModel;
-        capturingCameraRotation = firstPerson && AnimationUtils.isAnimationLocked();
+
         if (firstPerson) {
             CameraRotationComposer.clearBlockbenchRotation();
         }
         try {
             super.renderByItem(stack, transformType, poseStack, bufferSource, packedLight, packedOverlay);
         } finally {
-            capturingCameraRotation = false;
             mirrorLeftHandModel = false;
         }
         poseStack.popPose();

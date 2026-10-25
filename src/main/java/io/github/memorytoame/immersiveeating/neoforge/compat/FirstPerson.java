@@ -79,7 +79,7 @@ public final class FirstPerson {
             setEnabledMethod = api.getMethod("setEnabled", boolean.class);
             return true;
         } catch (ReflectiveOperationException | RuntimeException exception) {
-            LOGGER.warn("FirstPersonMod doesn't exist.", exception);
+            LOGGER.warn("FirstPersonMod doesn't exist.");
             return false;
         }
     }
