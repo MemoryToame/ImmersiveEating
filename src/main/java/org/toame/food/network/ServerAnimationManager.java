@@ -43,6 +43,7 @@ public final class ServerAnimationManager {
                 && heldStack.getCount() == expectedStack.getCount();
     }
 
+
     public static void clear(ServerPlayer player) {
         if (player != null) {
             ACTIVE_ANIMATIONS.remove(player.getUUID());
