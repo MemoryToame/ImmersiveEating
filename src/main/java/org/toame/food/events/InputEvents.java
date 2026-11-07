@@ -39,7 +39,7 @@ public class InputEvents {
             return;
         }
         if (ModKeyMappings.ANIMATION.consumeClick()) {
-            if (GameplayEvents.shouldAllowTargetInteraction(Minecraft.getInstance()) || isAnimationLocked() || isAnimationRequestPending()) {
+            if (Empty.isAnimationPlaying() || GameplayEvents.shouldAllowTargetInteraction(Minecraft.getInstance()) || isAnimationLocked() || isAnimationRequestPending()) {
                 return;
             }
             Minecraft mc = Minecraft.getInstance();
@@ -97,6 +97,17 @@ public class InputEvents {
     public static void onMouseButton(InputEvent.MouseButton.Pre event) {
         Minecraft mc = Minecraft.getInstance();
         if (mc.player == null) {
+            return;
+        }
+        if (mc.options.keyUse.matchesMouse(event.getButton())) {
+            cancelIfHeldItemChanged(mc);
+            if (!FoodDefinitionManager.init_ItemList.contains(mc.player.getMainHandItem().getItem())) {
+                return;
+            }
+        }
+        if (mc.screen == null && event.getAction() == GLFW.GLFW_PRESS
+                && mc.options.keyUse.matchesMouse(event.getButton()) && Empty.isAnimationPlaying()) {
+            event.setCanceled(true);
             return;
         }
         if (mc.options.keyUse.matchesMouse(event.getButton()) && GameplayEvents.shouldAllowTargetInteraction(mc)) {
