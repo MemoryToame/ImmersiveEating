@@ -13,7 +13,6 @@ public class Helper {
             return api;
 
         } catch (ReflectiveOperationException | RuntimeException exception) {
-            LOGGER.warn(className +" doesn't exist.");
             return null;
         }
     }
