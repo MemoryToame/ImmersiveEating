@@ -55,27 +55,40 @@ public class AnimationUtils {
         animationRequestTicks = 0;
     }
 
+    public static void onAnimationStatus(UUID sessionId, boolean accepted) {
+        if (!sessionId.equals(animationSessionId) || !isAnimationLocked()) return;
+        if (!accepted) {
+            stopAnimationControl();
+        } else if (animationRequestPending) {
+            Empty.triggerClientAnimation(temp, "eat");
+            animationRequestPending = false;
+            wasEatAnimationPlaying = true;
+        }
+    }
+
     public static void checkEatAnimationState() {
         refreshAnimationControllerId(Minecraft.getInstance());
-        if (animationRequestPending && ++animationRequestTicks > 40) {
-            stopAnimationControl();
+        if (animationRequestPending) {
+            if (++animationRequestTicks > 40) {
+                stopAnimationControl();
+            }
             return;
         }
 
         boolean animationPlaying = Empty.isEatAnimationPlaying();
         if (animationPlaying) {
             wasEatAnimationPlaying = true;
-            animationRequestPending = false;
         } else if (wasEatAnimationPlaying && isAnimationLocked()) {
             stopAnimationControl();
         }
     }
 
     public static void stopAnimationControl() {
-        if (isAnimationLocked() && animationSessionId != null) {
+        if (Minecraft.getInstance().getConnection() != null && isAnimationLocked() && animationSessionId != null) {
             PacketDistributor.sendToServer(new StopAnimationPacket(animationSessionId));
         }
-        Empty.stopEatAnimation(animationControllerId);
+        animationSessionId = null;
+        if (animationControllerId != Long.MAX_VALUE) Empty.stopEatAnimation(animationControllerId);
         ClientSoundHandler.stopLocalSounds();
         if (Minecraft.getInstance().player != null) {
             ClientAnimationManager.clearSession(Minecraft.getInstance().player);

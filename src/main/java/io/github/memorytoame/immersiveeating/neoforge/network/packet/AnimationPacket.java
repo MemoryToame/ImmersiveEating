@@ -12,9 +12,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
-import software.bernie.geckolib.animatable.GeoAnimatable;
-import software.bernie.geckolib.animatable.GeoItem;
-import software.bernie.geckolib.animation.AnimationController;
 import java.util.UUID;
 
 public record AnimationPacket(UUID sessionId) implements CustomPacketPayload {
@@ -32,20 +29,12 @@ public record AnimationPacket(UUID sessionId) implements CustomPacketPayload {
                 return;
             }
             ItemStack stack = sp.getMainHandItem();
-            if (stack.isEmpty() || stack.is(ModItems.EMPTY.get()) || !FoodDefinitionManager.init_ItemList.contains(stack.getItem())) {
-                return;
+            boolean accepted = !stack.isEmpty() && !stack.is(ModItems.EMPTY.get())
+                    && FoodDefinitionManager.init_ItemList.contains(stack.getItem());
+            if (accepted) {
+                ServerAnimationManager.begin(sp, payload.sessionId(), InteractionHand.MAIN_HAND, stack);
             }
-            long id = GeoItem.getOrAssignId(stack, sp.serverLevel());
-            sp.setItemInHand(InteractionHand.MAIN_HAND, stack);
-            AnimationController<GeoAnimatable> controller = ModItems.EMPTY.get().getAnimatableInstanceCache()
-                    .getManagerForId(id).getAnimationControllers().get("eat");
-            if (controller != null && controller.isPlayingTriggeredAnimation()) {
-                return;
-            }
-            if (!ServerAnimationManager.begin(sp, payload.sessionId(), InteractionHand.MAIN_HAND, stack, id)) {
-                return;
-            }
-            ModItems.EMPTY.get().triggerAnim(sp, id, "eat", "eat");
+            context.reply(new AnimationStatusPacket(payload.sessionId(), accepted));
         });
     }
 }

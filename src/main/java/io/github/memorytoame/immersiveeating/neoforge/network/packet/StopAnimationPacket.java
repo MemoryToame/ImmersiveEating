@@ -1,7 +1,6 @@
 package io.github.memorytoame.immersiveeating.neoforge.network.packet;
 
 import io.github.memorytoame.immersiveeating.neoforge.Food;
-import io.github.memorytoame.immersiveeating.neoforge.init.ModItems;
 import io.github.memorytoame.immersiveeating.neoforge.server.ServerAnimationManager;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
@@ -30,10 +29,6 @@ public record StopAnimationPacket(UUID sessionId) implements CustomPacketPayload
             if (!(context.player() instanceof ServerPlayer sp) || payload.sessionId() == null
                     || !ServerAnimationManager.matchesSession(sp, payload.sessionId(), InteractionHand.MAIN_HAND)) {
                 return;
-            }
-            ServerAnimationManager.AnimationState state = ServerAnimationManager.get(sp);
-            if (state.controllerId() != Long.MAX_VALUE) {
-                ModItems.EMPTY.get().stopTriggeredAnim(sp, state.controllerId(), "eat", "eat");
             }
             ServerAnimationManager.clear(sp);
         });

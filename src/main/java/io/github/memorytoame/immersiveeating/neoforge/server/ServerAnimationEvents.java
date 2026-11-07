@@ -1,7 +1,8 @@
 package io.github.memorytoame.immersiveeating.neoforge.server;
 
 import io.github.memorytoame.immersiveeating.neoforge.Food;
-import io.github.memorytoame.immersiveeating.neoforge.init.ModItems;
+import io.github.memorytoame.immersiveeating.neoforge.network.packet.AnimationStatusPacket;
+import net.neoforged.neoforge.network.PacketDistributor;
 import net.minecraft.server.level.ServerPlayer;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -16,11 +17,7 @@ public final class ServerAnimationEvents {
 
     @SubscribeEvent
     public static void onPlayerLoggedOut(PlayerEvent.PlayerLoggedOutEvent event) {
-        if (event.getEntity() instanceof ServerPlayer player) {
-            stopAndClear(player);
-        } else {
-            ServerAnimationManager.clear(event.getEntity().getUUID());
-        }
+        ServerAnimationManager.clear(event.getEntity().getUUID());
     }
 
     @SubscribeEvent
@@ -34,15 +31,8 @@ public final class ServerAnimationEvents {
             return;
         }
 
-        stopAndClear(sp);
-    }
-
-    private static void stopAndClear(ServerPlayer player) {
-        ServerAnimationManager.AnimationState state = ServerAnimationManager.get(player);
-        if (state != null && state.controllerId() != Long.MAX_VALUE) {
-            ModItems.EMPTY.get().stopTriggeredAnim(player, state.controllerId(), "eat", "eat");
-        }
-        ServerAnimationManager.clear(player);
+        ServerAnimationManager.clear(sp);
+        PacketDistributor.sendToPlayer(sp, new AnimationStatusPacket(state.sessionId(), false));
     }
 
     @SubscribeEvent

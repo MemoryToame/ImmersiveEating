@@ -6,9 +6,15 @@ import io.github.memorytoame.immersiveeating.neoforge.common.content.item.Empty;
 import io.github.memorytoame.immersiveeating.neoforge.common.content.definition.FoodDefinitionManager;
 import io.github.memorytoame.immersiveeating.neoforge.network.packet.AnimationPacket;
 import io.github.memorytoame.immersiveeating.neoforge.utils.AnimationUtils;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.HitResult;
 import net.neoforged.neoforge.client.event.InputEvent;
+import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -86,7 +92,7 @@ public class GameplayEvents {
     @SubscribeEvent
     public static void onRightClick(InputEvent.InteractionKeyMappingTriggered event) {
         Minecraft mc = Minecraft.getInstance();
-        if (!ENABLE_RIGHT_BUTTON.get() || mc.player == null || mc.player.isCrouching() || !event.isUseItem()) {
+        if (!event.isUseItem() || shouldAllowTargetInteraction(mc) || !ENABLE_RIGHT_BUTTON.get() || mc.player == null || mc.player.isCrouching()) {
             return;
         }
 
@@ -100,6 +106,14 @@ public class GameplayEvents {
         event.setCanceled(true);
         startRightClickAnimation(stack);
     }
+    public static boolean shouldAllowTargetInteraction(Minecraft mc) {
+        if (mc.hitResult instanceof EntityHitResult hit) {
+            return ContainerTarget.allowsInteraction(hit.getEntity());
+        }
+        return mc.level != null && mc.hitResult instanceof BlockHitResult hit
+                && hit.getType() == HitResult.Type.BLOCK && ContainerTarget.allowsInteraction(mc.level, hit.getBlockPos());
+    }
+
     public static void startRightClickAnimation() {
         Minecraft mc = Minecraft.getInstance();
         if (mc.player != null) {
@@ -114,5 +128,11 @@ public class GameplayEvents {
         }
         AnimationUtils.beginAnimationSession(mc);
         PacketDistributor.sendToServer(new AnimationPacket(AnimationUtils.getAnimationSessionId(mc)));
+    }
+    @SubscribeEvent
+    public static void onItemTooltip(ItemTooltipEvent event) {
+        if (FoodDefinitionManager.init_ItemList.contains(event.getItemStack().getItem())) {
+            event.getToolTip().add(Component.translatable("tooltip.food.eating_animation").withStyle(ChatFormatting.GRAY));
+        }
     }
 }
