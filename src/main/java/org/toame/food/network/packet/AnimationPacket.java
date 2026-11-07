@@ -6,11 +6,10 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.network.NetworkEvent;
 import org.toame.food.additions.definiton.FoodDefinitionManager;
-import org.toame.food.utils.AnimationControllerIds;
+import org.toame.food.network.Network;
+import net.minecraftforge.network.PacketDistributor;
 import org.toame.food.init.ModItems;
 import org.toame.food.network.ServerAnimationManager;
-import software.bernie.geckolib.core.animatable.GeoAnimatable;
-import software.bernie.geckolib.core.animation.AnimationController;
 
 import java.util.UUID;
 import java.util.function.Supplier;
@@ -32,19 +31,13 @@ public record AnimationPacket(UUID sessionId) {
                 return;
             }
             ItemStack stack = sp.getMainHandItem();
-            if (stack.isEmpty() || stack.is(ModItems.EMPTY.get()) || !FoodDefinitionManager.init_ItemList.contains(stack.getItem())) {
-                return;
+            boolean accepted = !stack.isEmpty() && !stack.is(ModItems.EMPTY.get())
+                    && FoodDefinitionManager.init_ItemList.contains(stack.getItem());
+            if (accepted) {
+                ServerAnimationManager.begin(sp, packet.sessionId(), InteractionHand.MAIN_HAND, stack);
             }
-            long id = AnimationControllerIds.forPlayer(sp.getUUID());
-            AnimationController<GeoAnimatable> controller = ModItems.EMPTY.get().getAnimatableInstanceCache()
-                    .getManagerForId(id).getAnimationControllers().get("eat");
-            if (controller != null && controller.isPlayingTriggeredAnimation()) {
-                return;
-            }
-            if (!ServerAnimationManager.begin(sp, packet.sessionId(), InteractionHand.MAIN_HAND, stack, id)) {
-                return;
-            }
-            ModItems.EMPTY.get().triggerAnim(sp, id, "eat", "eat");
+            Network.CHANNEL.send(PacketDistributor.PLAYER.with(() -> sp),
+                    new AnimationStatusPacket(packet.sessionId(), accepted));
         });
         context.setPacketHandled(true);
     }

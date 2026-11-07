@@ -16,6 +16,15 @@ public final class ServerGameplayEvents {
 
     @SubscribeEvent
     public static void onRightClick(PlayerInteractEvent event) {
+        if (event instanceof PlayerInteractEvent.RightClickBlock && ContainerTarget.allowsInteraction(event.getLevel(), event.getPos())) {
+            return;
+        }
+        if (event instanceof PlayerInteractEvent.EntityInteract interact && ContainerTarget.allowsInteraction(interact.getTarget())) {
+            return;
+        }
+        if (event instanceof PlayerInteractEvent.EntityInteractSpecific specific && ContainerTarget.allowsInteraction(specific.getTarget())) {
+            return;
+        }
         if (!ENABLE_RIGHT_BUTTON.get() || event.getEntity().isCrouching() || event.getHand() != InteractionHand.MAIN_HAND
                 || !isRightClick(event)) {
             return;

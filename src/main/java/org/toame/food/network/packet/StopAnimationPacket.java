@@ -3,7 +3,6 @@ package org.toame.food.network.packet;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.network.NetworkEvent;
-import org.toame.food.init.ModItems;
 import org.toame.food.network.ServerAnimationManager;
 import java.util.UUID;
 import java.util.function.Supplier;
@@ -17,7 +16,6 @@ public record StopAnimationPacket(UUID sessionId) {
             ServerPlayer player = context.getSender();
             ServerAnimationManager.AnimationState state = ServerAnimationManager.get(player);
             if (player == null || state == null || !state.sessionId().equals(packet.sessionId)) return;
-            ModItems.EMPTY.get().stopTriggeredAnim(player, state.controllerId(), "eat", "eat");
             ServerAnimationManager.clear(player);
         });
         context.setPacketHandled(true);

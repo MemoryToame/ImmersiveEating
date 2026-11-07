@@ -18,16 +18,9 @@ public final class ServerAnimationManager {
         return player == null ? null : ACTIVE_ANIMATIONS.get(player.getUUID());
     }
 
-    public static boolean begin(ServerPlayer player, UUID sessionId, InteractionHand hand, ItemStack stack, long controllerId) {
-        if (player == null || sessionId == null || hand == null || stack == null || stack.isEmpty()
-                || controllerId == Long.MAX_VALUE) {
-            return false;
-        }
-        if (ACTIVE_ANIMATIONS.containsKey(player.getUUID())) {
-            return false;
-        }
-        ACTIVE_ANIMATIONS.put(player.getUUID(), new AnimationState(player.getUUID(), sessionId, hand, stack.copy(), controllerId));
-        return true;
+    public static void begin(ServerPlayer player, UUID sessionId, InteractionHand hand, ItemStack stack) {
+        // A fresh request supersedes an abandoned session. Finish and stop must match its UUID.
+        ACTIVE_ANIMATIONS.put(player.getUUID(), new AnimationState(player.getUUID(), sessionId, hand, stack.copy()));
     }
 
     public static boolean matchesSession(ServerPlayer player, UUID sessionId, InteractionHand hand) {
@@ -66,7 +59,7 @@ public final class ServerAnimationManager {
         ACTIVE_ANIMATIONS.clear();
     }
 
-    public record AnimationState(UUID ownerId, UUID sessionId, InteractionHand hand, ItemStack stack, long controllerId) {
+    public record AnimationState(UUID ownerId, UUID sessionId, InteractionHand hand, ItemStack stack) {
     }
 }
 

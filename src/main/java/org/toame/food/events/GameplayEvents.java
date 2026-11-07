@@ -1,9 +1,15 @@
 package org.toame.food.events;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.InputEvent;
+import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import org.toame.food.Food;
@@ -18,10 +24,24 @@ import static org.toame.food.config.Config.ENABLE_RIGHT_BUTTON;
 @Mod.EventBusSubscriber(modid = Food.MODID, value = Dist.CLIENT)
 public final class GameplayEvents {
 
+    static boolean shouldAllowTargetInteraction(Minecraft mc) {
+        if (mc.hitResult instanceof EntityHitResult hit) {
+            return ContainerTarget.allowsInteraction(hit.getEntity());
+        }
+        return mc.level != null && mc.hitResult instanceof BlockHitResult hit && hit.getType() == HitResult.Type.BLOCK && ContainerTarget.allowsInteraction(mc.level, hit.getBlockPos());
+    }
+
+    @SubscribeEvent
+    public static void onItemTooltip(ItemTooltipEvent event) {
+        if (FoodDefinitionManager.init_ItemList.contains(event.getItemStack().getItem())) {
+            event.getToolTip().add(Component.translatable("tooltip.food.eating_animation").withStyle(ChatFormatting.GRAY));
+        }
+    }
+
     @SubscribeEvent
     public static void onRightClick(InputEvent.InteractionKeyMappingTriggered event) {
         Minecraft mc = Minecraft.getInstance();
-        if (!ENABLE_RIGHT_BUTTON.get() || mc.player == null || mc.player.isCrouching() || !event.isUseItem()) {
+        if (!event.isUseItem() || shouldAllowTargetInteraction(mc) || !ENABLE_RIGHT_BUTTON.get() || mc.player == null || mc.player.isCrouching()) {
             return;
         }
 

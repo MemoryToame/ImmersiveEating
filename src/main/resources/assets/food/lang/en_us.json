@@ -1,4 +1,5 @@
 {
+  "tooltip.food.eating_animation": "HasAnimation",
   "tab.food": "food",
   "key.food.animation": "Play Animations",
   "key.categories.food": "Immersive Eating"

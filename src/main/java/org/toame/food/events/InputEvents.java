@@ -39,7 +39,7 @@ public class InputEvents {
             return;
         }
         if (ModKeyMappings.ANIMATION.consumeClick()) {
-            if (isAnimationLocked() || isAnimationRequestPending()) {
+            if (GameplayEvents.shouldAllowTargetInteraction(Minecraft.getInstance()) || isAnimationLocked() || isAnimationRequestPending()) {
                 return;
             }
             Minecraft mc = Minecraft.getInstance();
@@ -99,6 +99,9 @@ public class InputEvents {
         if (mc.player == null) {
             return;
         }
+        if (mc.options.keyUse.matchesMouse(event.getButton()) && GameplayEvents.shouldAllowTargetInteraction(mc)) {
+            return;
+        }
         if (event.getAction() == GLFW.GLFW_PRESS && mc.options.keyUse.matchesMouse(event.getButton()) && ENABLE_RIGHT_BUTTON.get() && !mc.player.isCrouching() && FoodDefinitionManager.init_ItemList.contains(mc.player.getMainHandItem().getItem()) && !isAnimationGui(mc.screen)) {
             if (Empty.isClientAnimationPlaying(mc.player.getMainHandItem(),"switchin")){
                 return;
@@ -124,6 +127,7 @@ public class InputEvents {
     @SubscribeEvent
 
     public static void onClientTick(ClientTickEvent event) {
+        if (event.phase != net.minecraftforge.event.TickEvent.Phase.END) return;
         Minecraft mc = Minecraft.getInstance();
         if (mc.player == null) {
             clearAnimationState();

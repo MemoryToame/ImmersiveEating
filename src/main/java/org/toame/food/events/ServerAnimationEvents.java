@@ -1,7 +1,9 @@
 package org.toame.food.events;
 
 import org.toame.food.Food;
-import org.toame.food.init.ModItems;
+import org.toame.food.network.Network;
+import org.toame.food.network.packet.AnimationStatusPacket;
+import net.minecraftforge.network.PacketDistributor;
 import org.toame.food.network.ServerAnimationManager;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -28,14 +30,8 @@ public final class ServerAnimationEvents {
             return;
         }
 
-        stopAndClear(sp);
-    }
-    private static void stopAndClear(ServerPlayer player) {
-        ServerAnimationManager.AnimationState state = ServerAnimationManager.get(player);
-        if (state != null && state.controllerId() != Long.MAX_VALUE) {
-            ModItems.EMPTY.get().stopTriggeredAnim(player, state.controllerId(), "eat", "eat");
-        }
-        ServerAnimationManager.clear(player);
+        ServerAnimationManager.clear(sp);
+        Network.CHANNEL.send(PacketDistributor.PLAYER.with(() -> sp), new AnimationStatusPacket(state.sessionId(), false));
     }
 
     @SubscribeEvent

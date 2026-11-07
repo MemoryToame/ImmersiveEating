@@ -19,7 +19,6 @@ import software.bernie.geckolib.core.object.PlayState;
 import software.bernie.geckolib.core.animation.RawAnimation;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.function.Consumer;
@@ -63,7 +62,9 @@ public class Empty extends Item implements GeoItem, GeoAnimatable {
     public static void stopEatAnimation(long instanceId) {
         clientSoundStopHandler.run();
         Empty empty = ModItems.EMPTY.get();
-        AnimationController<?> controller = empty.getAnimatableInstanceCache().getManagerForId(instanceId).getAnimationControllers().get("eat");
+        var manager = empty.getAnimatableInstanceCache().getManagerForId(instanceId);
+        manager.stopTriggeredAnimation("eat", "eat");
+        AnimationController<?> controller = manager.getAnimationControllers().get("eat");
         if (controller != null) {
             controller.stop();
         }
@@ -106,13 +107,10 @@ public class Empty extends Item implements GeoItem, GeoAnimatable {
         }
     }
 
-    private List<AnimationController<Empty>> reg_controllers = new ArrayList<>();
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        reg_controllers.add(createControl("eat"));
-        reg_controllers.add(createControl("switchin"));
-        reg_controllers.add(createControl("switchout"));
-        for (AnimationController<Empty> controller : reg_controllers){
+        for (String name : List.of("eat", "switchin", "switchout")) {
+            AnimationController<Empty> controller = createControl(name);
             controller.setSoundKeyframeHandler(keyFrames ->{
                 ItemStack animationStack = clientAnimationStackSupplier.get();
                 if (animationStack == null || animationStack.isEmpty()) {
@@ -127,9 +125,7 @@ public class Empty extends Item implements GeoItem, GeoAnimatable {
                     if (clientGetMainHandItem.get()!=null){
                         if (UNIQUE_ITEM_MAP.get(BuiltInRegistries.ITEM.getKey(clientGetMainHandItem.get()))!=null){
                             Item child_item =BuiltInRegistries.ITEM.get(UNIQUE_ITEM_MAP.get(BuiltInRegistries.ITEM.getKey(clientGetMainHandItem.get())));
-                            if (child_item!=null){
-                                Network.CHANNEL.sendToServer(new CustomUsingPacket(InteractionHand.MAIN_HAND, child_item,1));
-                            }
+                            Network.CHANNEL.sendToServer(new CustomUsingPacket(InteractionHand.MAIN_HAND, child_item, 1));
                         }
                         else{
                             clientSoundHandler.accept(soundId);
