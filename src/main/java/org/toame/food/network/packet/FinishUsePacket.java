@@ -26,6 +26,7 @@ public record FinishUsePacket(UUID sessionId, InteractionHand hand) {
             ServerPlayer player = context.getSender();
             if (player == null || packet.hand == null || !ServerAnimationManager.matchesSession(player, packet.sessionId, packet.hand)) return;
             try {
+                if (!ServerAnimationManager.matchesHeldStack(player)) return;
                 ItemStack stack = player.getItemInHand(packet.hand);
                 if (UniqueItem.UNIQUE_ITEM_MAP.get(ForgeRegistries.ITEMS.getKey(stack.getItem())) != null) {
                     stack.shrink(1);
