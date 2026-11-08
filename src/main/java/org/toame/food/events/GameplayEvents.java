@@ -41,7 +41,7 @@ public final class GameplayEvents {
     @SubscribeEvent
     public static void onRightClick(InputEvent.InteractionKeyMappingTriggered event) {
         Minecraft mc = Minecraft.getInstance();
-        if (!event.isUseItem() || shouldAllowTargetInteraction(mc) || !ENABLE_RIGHT_BUTTON.get() || mc.player == null || mc.player.isCrouching()) {
+        if (!event.isUseItem() || !mc.options.getCameraType().isFirstPerson() || shouldAllowTargetInteraction(mc) || !ENABLE_RIGHT_BUTTON.get() || mc.player == null || mc.player.isCrouching()) {
             return;
         }
 
@@ -49,10 +49,10 @@ public final class GameplayEvents {
         if (!FoodDefinitionManager.init_ItemList.contains(stack.getItem())) {
             return;
         }
+        event.setCanceled(true);
         if (Empty.isClientAnimationPlaying(stack,"switchin")){
             return;
         }
-        event.setCanceled(true);
         startRightClickAnimation(stack);
     }
 

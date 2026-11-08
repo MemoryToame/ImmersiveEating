@@ -1,11 +1,12 @@
 package org.toame.food.events;
 
 import net.minecraft.world.InteractionHand;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import org.toame.food.Food;
-import org.toame.food.additions.definiton.FoodDefinitionManager;
+import org.toame.food.network.ServerAnimationManager;
 
 import static org.toame.food.config.Config.ENABLE_RIGHT_BUTTON;
 
@@ -16,6 +17,9 @@ public final class ServerGameplayEvents {
 
     @SubscribeEvent
     public static void onRightClick(PlayerInteractEvent event) {
+        if (!(event.getEntity() instanceof ServerPlayer player) || ServerAnimationManager.get(player) == null) {
+            return;
+        }
         if (event instanceof PlayerInteractEvent.RightClickBlock && ContainerTarget.allowsInteraction(event.getLevel(), event.getPos())) {
             return;
         }
@@ -30,7 +34,7 @@ public final class ServerGameplayEvents {
             return;
         }
 
-        if (FoodDefinitionManager.init_ItemList.contains(event.getItemStack().getItem())) {
+        if (ServerAnimationManager.matchesHeldStack(player)) {
             event.setCanceled(true);
         }
     }
