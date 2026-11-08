@@ -2,7 +2,7 @@ package io.github.memorytoame.immersiveeating.neoforge.server;
 
 import io.github.memorytoame.immersiveeating.neoforge.Food;
 import io.github.memorytoame.immersiveeating.neoforge.common.content.definition.FoodDefinitionManager;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.server.level.ServerPlayer;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.AddReloadListenerEvent;
@@ -17,12 +17,12 @@ public final class ServerGameplayEvents {
 
     @SubscribeEvent
     public static void onRightClickItem(PlayerInteractEvent.RightClickItem event) {
-        if (!ENABLE_RIGHT_BUTTON.get()) {
+        if (!ENABLE_RIGHT_BUTTON.get() || !(event.getEntity() instanceof ServerPlayer player) || player.isCrouching()) {
             return;
         }
 
-        ItemStack stack = event.getItemStack();
-        if (FoodDefinitionManager.init_ItemList.contains(stack.getItem())) {
+        var session = ServerAnimationManager.get(player);
+        if (session != null && session.hand() == event.getHand() && ServerAnimationManager.matchesHeldStack(player)) {
             event.setCanceled(true);
         }
     }

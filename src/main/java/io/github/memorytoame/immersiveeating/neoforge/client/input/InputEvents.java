@@ -106,6 +106,9 @@ public class InputEvents {
             return;
         }
         if (mc.options.keyUse.matchesMouse(event.getButton())) {
+            if (!mc.options.getCameraType().isFirstPerson()) {
+                return;
+            }
             cancelIfHeldItemChanged(mc);
             if (!FoodDefinitionManager.init_ItemList.contains(mc.player.getMainHandItem().getItem())) {
                 return;
