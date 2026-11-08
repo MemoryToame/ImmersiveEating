@@ -61,6 +61,9 @@ public class Empty extends Item implements GeoItem {
 
     public static void stopEatAnimation(long instanceId) {
         clientSoundStopHandler.run();
+        if (!ModItems.EMPTY.isBound()) {
+            return;
+        }
         Empty empty = ModItems.EMPTY.get();
         var manager = empty.getAnimatableInstanceCache().getManagerForId(instanceId);
         manager.stopTriggeredAnimation("eat", "eat");

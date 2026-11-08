@@ -4,10 +4,8 @@ import io.github.memorytoame.immersiveeating.neoforge.Food;
 import io.github.memorytoame.immersiveeating.neoforge.common.content.item.Empty;
 import net.minecraft.world.item.Item;
 import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
-import net.neoforged.neoforge.registries.NeoForgeRegistries;
-
-import java.util.function.Supplier;
 
 public class ModItems {
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(Food.MODID);
@@ -16,6 +14,6 @@ public class ModItems {
         ITEMS.register(eventBus);
     }
 
-    public static final Supplier<Empty> EMPTY = ITEMS.registerItem("empty", Empty::new, new Item.Properties());
+    public static final DeferredItem<Empty> EMPTY = ITEMS.registerItem("empty", Empty::new, new Item.Properties());
 
 }
